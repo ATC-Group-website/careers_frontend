@@ -1,0 +1,38 @@
+<nav class="bg-gray-100">
+  <div class="mx-auto flex max-w-screen-2xl justify-between p-3">
+    <a routerLink="/jobs" class="">
+      <img
+        ngSrc="atc_group_logo1.png"
+        alt="ATC Group"
+        priority
+        width="114"
+        height="80"
+      />
+    </a>
+    <div class="flex items-center gap-4">
+      @if (!isLogged) {
+        <a
+          routerLink="/login"
+          class="rounded-md bg-gray-200 px-5 py-3 text-black no-underline hover:bg-gray-300"
+          >Login</a
+        >
+        <a
+          routerLink="/register"
+          class="rounded-md bg-primary px-5 py-3 text-white no-underline hover:bg-red-700"
+          >Sign up</a
+        >
+      }
+      @if (isLogged) {
+        <!-- dropdown with name on view and logout as option  -->
+        <!--
+        <p-dropdown
+          [options]="dropdownItems"
+          placeholder="Menu"
+          [showClear]="true"
+        >
+        </p-dropdown> -->
+        <p-button label="Logout" type="button" (onClick)="logout()" />
+      }
+    </div>
+  </div>
+</nav>

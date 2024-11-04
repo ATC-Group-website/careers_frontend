@@ -1,0 +1,291 @@
+<main class="flex min-h-screen flex-col">
+  <app-header></app-header>
+  <section
+    class="w-full flex-1 bg-cover bg-center"
+    style="background-image: url(&quot;register-page.jpg&quot;)"
+  >
+    <section class="mx-auto my-10 flex h-full max-w-screen-xl flex-col">
+      <div
+        class="flex flex-col items-center justify-center px-6 py-8 md:h-screen md:flex-1 lg:py-0"
+      >
+        <div
+          class="max-w-xl rounded-lg bg-white shadow md:mt-10 md:w-5/6 xl:p-0"
+        >
+          <div class="space-y-4 p-6 sm:p-8 md:space-y-6">
+            <h1
+              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+            >
+              Create a new account
+            </h1>
+            <form
+              class="w-full space-y-4 md:space-y-6"
+              (ngSubmit)="onRegister()"
+              [formGroup]="registerForm"
+            >
+              <!-- full name input  -->
+              <div>
+                <label
+                  for="name"
+                  class="mb-2 block text-sm font-medium text-gray-900"
+                >
+                  Full name</label
+                >
+                <input
+                  type="text"
+                  id="name"
+                  autocomplete="name"
+                  pInputText
+                  formControlName="name"
+                  class="block w-full rounded-lg border bg-gray-50 p-3 text-gray-900"
+                  [ngClass]="{
+                    'border-gray-300':
+                      !registerForm.controls['name'].touched ||
+                      registerForm.controls['name'].valid,
+                    'border-red-500':
+                      registerForm.controls['name'].touched &&
+                      registerForm.controls['name'].invalid,
+                  }"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <!-- email input  -->
+              <div>
+                <label
+                  for="email"
+                  class="mb-2 block text-sm font-medium text-gray-900"
+                >
+                  Email</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  pInputText
+                  formControlName="email"
+                  class="block w-full rounded-md bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:outline-none"
+                  autocomplete="email"
+                  [ngClass]="{
+                    'border-gray-300':
+                      !registerForm.controls['email'].touched ||
+                      registerForm.controls['email'].valid,
+                    'border-red-500':
+                      registerForm.controls['email'].touched &&
+                      registerForm.controls['email'].invalid,
+                  }"
+                  placeholder="Enter your email"
+                />
+              </div>
+              <!-- password  -->
+              <div>
+                <label
+                  for="password"
+                  class="mb-2 block text-sm font-medium text-gray-900"
+                  >Password</label
+                >
+                <p-password
+                  type="password"
+                  id="password"
+                  [toggleMask]="true"
+                  formControlName="password"
+                  class="block w-full rounded-md border text-gray-900 focus:border-blue-500 focus:outline-none"
+                  [style]="{
+                    display: 'block',
+                    width: '100%',
+                    backgroundColor: '#F9FAFB',
+                  }"
+                  [inputStyle]="{
+                    display: 'block',
+                    width: '100%',
+                    backgroundColor: '#F9FAFB',
+                    opacity: '1',
+                  }"
+                  [ngClass]="{
+                    'border-gray-300':
+                      !registerForm.controls['password'].touched ||
+                      registerForm.controls['password'].valid,
+                    'border-red-500':
+                      registerForm.controls['password'].touched &&
+                      registerForm.controls['password'].invalid,
+                  }"
+                  [feedback]="true"
+                  placeholder="Enter your password"
+                />
+              </div>
+              <div>
+                <label
+                  for="confirmPassword"
+                  class="mb-2 block text-sm font-medium text-gray-900"
+                  >Confirm password</label
+                >
+                <p-password
+                  type="password"
+                  id="confirmPassword"
+                  [toggleMask]="true"
+                  class="block w-full rounded-md border focus:border-blue-500 focus:outline-none"
+                  formControlName="confirmPassword"
+                  autocomplete="off"
+                  [style]="{
+                    display: 'block',
+                    width: '100%',
+                    backgroundColor: '#F9FAFB',
+                  }"
+                  [inputStyle]="{
+                    display: 'block',
+                    width: '100%',
+                    backgroundColor: '#F9FAFB',
+                    opacity: '1',
+                  }"
+                  [ngClass]="{
+                    'border-gray-300':
+                      !registerForm.controls['confirmPassword'].touched ||
+                      registerForm.controls['confirmPassword'].valid,
+                    'border-red-500':
+                      registerForm.controls['confirmPassword'].touched &&
+                      registerForm.controls['confirmPassword'].invalid,
+                  }"
+                  [feedback]="true"
+                  placeholder="Repeat your password"
+                />
+              </div>
+              <div>
+                <label
+                  for="phone_number"
+                  class="mb-2 block text-sm font-medium text-gray-900"
+                  >Phone number</label
+                >
+                <input
+                  id="phone_number"
+                  class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  formControlName="phone_number"
+                  pInputText
+                  type="text"
+                  (input)="onInput($event)"
+                  [style]="{
+                    display: 'block',
+                    width: '100%',
+                    backgroundColor: '#F9FAFB',
+                  }"
+                  [ngClass]="{
+                    'border-gray-300':
+                      !registerForm.controls['phone_number'].touched ||
+                      registerForm.controls['phone_number'].valid,
+                    'border-red-500':
+                      registerForm.controls['phone_number'].touched &&
+                      registerForm.controls['phone_number'].invalid,
+                  }"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+              <div>
+                <label
+                  for="address"
+                  class="mb-2 block text-sm font-medium text-gray-900"
+                  >Address</label
+                >
+                <input
+                  id="address"
+                  class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  formControlName="address"
+                  pInputText
+                  type="text"
+                  [style]="{
+                    display: 'block',
+                    width: '100%',
+                    backgroundColor: '#F9FAFB',
+                  }"
+                  [ngClass]="{
+                    'border-gray-300':
+                      !registerForm.controls['address'].touched ||
+                      registerForm.controls['address'].valid,
+                    'border-red-500':
+                      registerForm.controls['address'].touched &&
+                      registerForm.controls['address'].invalid,
+                  }"
+                  placeholder="Enter your address"
+                />
+              </div>
+              <div>
+                <label
+                  for="cv"
+                  class="mb-2 block text-sm font-medium text-gray-900"
+                  >Upload your CV</label
+                >
+                <!-- <div class="card justify-content-center flex">
+                  <p-toast />
+                  <p-fileUpload
+                    mode="basic"
+                    chooseLabel="Upload"
+                    chooseIcon="pi pi-upload"
+                    class="flex-1"
+                    styleClass="border-gray-200 w-full bg-gray-50 text-black"
+                    [style]="{ width: '100%' }"
+                    id="cv"
+                    accept=".pdf"
+                    maxFileSize="1000000"
+                    [ngClass]="{
+                      'ng-invalid ng-dirty':
+                        registerForm.controls['cv'].invalid &&
+                        registerForm.controls['cv'].touched,
+                    }"
+                  />
+                </div> -->
+                <div>
+                  <div class="relative">
+                    <input
+                      type="file"
+                      id="file_input"
+                      accept=".pdf"
+                      formControlName="cv"
+                      class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                      (change)="onFileSelected($event)"
+                    />
+
+                    <div
+                      class="flex items-center rounded-md border border-gray-300 bg-white p-3 transition-colors hover:border-blue-500"
+                    >
+                      <span class="flex-1 truncate text-gray-700">
+                        <i class="pi pi-file-pdf mr-2 text-gray-600"></i>
+                        @if (filename) {
+                          {{ filename }}
+                        } @else {
+                          No file choosen
+                        }
+                      </span>
+                      <button
+                        type="button"
+                        class="ml-2 inline-flex items-center rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        onclick="event.preventDefault()"
+                      >
+                        <i class="pi pi-upload mr-2"></i>
+                        Choose File
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p-button
+                  label="Register"
+                  [style]="{
+                    width: '100%',
+                  }"
+                  [loading]="isLoading"
+                  type="submit"
+                />
+              </div>
+              <p class="text-sm font-light text-gray-500">
+                Already have an account?
+                <a
+                  routerLink="/login"
+                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  >Login here</a
+                >
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</main>
+<app-footer></app-footer>

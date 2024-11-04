@@ -1,0 +1,123 @@
+<app-header></app-header>
+<main>
+  <section class="mx-auto max-w-screen-xl p-10 text-center">
+    <div class="my-20">
+      <h1 class="mb-20 text-5xl font-bold">Careers at ATC Group</h1>
+      <a
+        (click)="scrollToSection()"
+        class="cursor-pointer rounded-md bg-[#e8453d] px-6 py-3 text-white no-underline"
+        >View jobs</a
+      >
+    </div>
+  </section>
+
+  <section id="job-openings" class="min-h-[100vh] bg-[#FBFBFB] pb-14">
+    <div class="mx-auto max-w-screen-xl p-4">
+      <h2 class="mb-10 text-center">Job openings</h2>
+
+      <form [formGroup]="filterForm">
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-search" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Search"
+            class="w-full"
+            formControlName="search"
+            (keydown.enter)="onSearch($event)"
+          />
+        </p-iconField>
+        <div class="mt-5 flex flex-col gap-2 md:flex-row md:gap-5 lg:gap-10">
+          <div class="my-auto font-normal">
+            <h3 class="m-0">Filter by:</h3>
+          </div>
+          <!-- Location Filter -->
+          <p-dropdown
+            [options]="locationsOptions"
+            formControlName="location"
+            scrollHeight="200px"
+            placeholder="Location"
+          />
+
+          <!-- Department Filter -->
+          <p-dropdown
+            [options]="departmentsOptions"
+            formControlName="departments"
+            placeholder="Department"
+            scrollHeight="200px"
+          />
+
+          <p-dropdown
+            [options]="yearsFilterOptions"
+            formControlName="years"
+            placeholder="Years of experience"
+            scrollHeight="200px"
+          />
+
+          <div class="flex flex-1 justify-end">
+            <button
+              class="hover: cursor-pointer border-0 bg-transparent p-0 text-gray-400 hover:text-black"
+              (click)="clearFilters()"
+            >
+              <p>
+                <i class="pi pi-refresh text-sm"></i>
+                Clear filters
+              </p>
+            </button>
+          </div>
+        </div>
+      </form>
+      <!-- Results section -->
+      @if (jobs.length === 0 && !loading) {
+        <div class="mt-10 py-4 text-center text-gray-500">
+          No jobs found matching your criteria.
+        </div>
+      }
+    </div>
+
+    @if (jobs) {
+      <div class="mx-auto max-w-screen-xl p-4">
+        @for (job of jobs; track $index) {
+          <div
+            class="mt-6 cursor-pointer p-5 pt-0"
+            [routerLink]="['/jobs', job.id]"
+          >
+            <div class="flex flex-col gap-5 md:flex-row">
+              <h3 class="m-0 w-2/5 text-2xl text-primary">
+                {{ job.title | titlecase }}
+              </h3>
+              <p class="m-0 w-1/5 font-bold">
+                {{ job.location | titlecase }}
+              </p>
+              <p class="text-grayTitle m-0 w-1/5">
+                {{ job.department | titlecase }}
+              </p>
+              <p class="text-grayTitle m-0 w-1/5">{{ job.years }} years</p>
+            </div>
+            <p class="text-grayTitle">Posted: {{ job.updated_at | timeAgo }}</p>
+          </div>
+          <hr class="m-0 text-gray-500" />
+        }
+      </div>
+      @if (noMoreJobs) {
+        <p class="text-grayTitle m-0 mt-10 pb-5 text-center text-lg">
+          No more jobs available at this time.
+        </p>
+      }
+      @if (!noMoreJobs && jobs.length > 0) {
+        <div class="m-1 flex items-center justify-center">
+          <p-button
+            (onClick)="onLoadMore()"
+            label="Show more"
+            class="cursor-pointer rounded-md border-none bg-[#e8453d] text-white shadow-none hover:bg-red-600 focus:outline-none focus:ring-0"
+            styleClass="no-underline"
+            [loading]="loading ? true : false"
+            [disabled]="loading ? true : false"
+            styleClass="rounded-md border-none bg-[#e8453d] text-white shadow-none hover:bg-red-600 focus:outline-none focus:ring-0"
+          ></p-button>
+        </div>
+      }
+    }
+  </section>
+</main>
+<app-footer></app-footer>

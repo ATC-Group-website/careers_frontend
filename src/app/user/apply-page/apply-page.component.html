@@ -1,0 +1,577 @@
+<app-header></app-header>
+
+<main class="min-h-screen p-4">
+  @if (!isLoggedIn && showMessage) {
+    <div class="relative mx-auto max-w-screen-sm shadow-lg">
+      <div class="rounded border bg-gray-100 p-4 text-center">
+        <button
+          (click)="closeMessage()"
+          class="absolute right-2 top-2 cursor-pointer border-0 text-gray-600 hover:text-gray-900"
+        >
+          <i class="pi pi-times"></i>
+          <!-- Close icon -->
+        </button>
+        <p class="mb-2 text-gray-700">
+          You can log in to monitor and manage your applications.
+        </p>
+        <p class="mb-4 text-gray-500">
+          Logging in allows you to track your application status and manage
+          multiple applications easily.
+        </p>
+        <a
+          routerLink="/login"
+          class="cursor-pointer text-blue-600 hover:underline"
+          >Log in here</a
+        >
+      </div>
+      <!-- Other content here -->
+    </div>
+  }
+
+  <form
+    [formGroup]="applyForm"
+    (ngSubmit)="onApply()"
+    class="mx-auto my-12 max-w-screen-md space-y-4 rounded-md bg-white p-5 shadow-lg"
+  >
+    <!-- Name -->
+    <div>
+      <label for="name" class="mb-2 block text-sm font-medium text-gray-900">
+        Full name</label
+      >
+      <input
+        type="text"
+        id="name"
+        autocomplete="name"
+        pInputText
+        formControlName="name"
+        class="block w-full rounded-lg border bg-gray-50 p-3 text-gray-900"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['name'].touched ||
+            applyForm.controls['name'].valid,
+          'border-red-500':
+            applyForm.controls['name'].touched &&
+            applyForm.controls['name'].invalid,
+        }"
+        placeholder="Enter your name"
+      />
+    </div>
+
+    <div>
+      <label for="email" class="mb-2 block text-sm font-medium text-gray-900">
+        Email</label
+      >
+      <input
+        type="email"
+        id="email"
+        pInputText
+        formControlName="email"
+        class="block w-full rounded-md bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:outline-none"
+        autocomplete="email"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['email'].touched ||
+            applyForm.controls['email'].valid,
+          'border-red-500':
+            applyForm.controls['email'].touched &&
+            applyForm.controls['email'].invalid,
+        }"
+        placeholder="Enter your email"
+      />
+    </div>
+
+    <!-- Phone Number -->
+    <div>
+      <label
+        for="phone_number"
+        class="mb-2 block text-sm font-medium text-gray-900"
+        >Phone number</label
+      >
+      <input
+        id="phone_number"
+        class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        formControlName="phone_number"
+        pInputText
+        type="number"
+        (input)="onInput($event)"
+        [style]="{
+          display: 'block',
+          width: '100%',
+          backgroundColor: '#F9FAFB',
+        }"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['phone_number'].touched ||
+            applyForm.controls['phone_number'].valid,
+          'border-red-500':
+            applyForm.controls['phone_number'].touched &&
+            applyForm.controls['phone_number'].invalid,
+        }"
+        placeholder="Enter your phone number"
+      />
+    </div>
+
+    <!-- Address -->
+    <div>
+      <label for="address" class="mb-2 block text-sm font-medium text-gray-900"
+        >Address</label
+      >
+      <input
+        id="address"
+        class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        formControlName="address"
+        pInputText
+        type="text"
+        [style]="{
+          display: 'block',
+          width: '100%',
+          backgroundColor: '#F9FAFB',
+        }"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['address'].touched ||
+            applyForm.controls['address'].valid,
+          'border-red-500':
+            applyForm.controls['address'].touched &&
+            applyForm.controls['address'].invalid,
+        }"
+        placeholder="Enter your address"
+      />
+    </div>
+    <!-- University -->
+    <div>
+      <label
+        for="university"
+        class="mb-2 block text-sm font-medium text-gray-900"
+        >University</label
+      >
+      <input
+        id="university"
+        class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        formControlName="university"
+        pInputText
+        type="text"
+        [style]="{
+          display: 'block',
+          width: '100%',
+          backgroundColor: '#F9FAFB',
+        }"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['university'].touched ||
+            applyForm.controls['university'].valid,
+          'border-red-500':
+            applyForm.controls['university'].touched &&
+            applyForm.controls['university'].invalid,
+        }"
+        placeholder="Enter your university"
+      />
+    </div>
+    <!-- Major -->
+    <div>
+      <label for="major" class="mb-2 block text-sm font-medium text-gray-900"
+        >Major</label
+      >
+      <input
+        id="major"
+        class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        formControlName="major"
+        pInputText
+        type="text"
+        [style]="{
+          display: 'block',
+          width: '100%',
+          backgroundColor: '#F9FAFB',
+        }"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['major'].touched ||
+            applyForm.controls['major'].valid,
+          'border-red-500':
+            applyForm.controls['major'].touched &&
+            applyForm.controls['major'].invalid,
+        }"
+        placeholder="Enter your major"
+      />
+    </div>
+
+    <!-- Graduation Year -->
+    <div>
+      <label
+        for="grad_year"
+        class="mb-2 block text-sm font-medium text-gray-900"
+        >Graduation year</label
+      >
+      <input
+        id="grad_year"
+        class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        formControlName="grad_year"
+        pInputText
+        type="number"
+        [style]="{
+          display: 'block',
+          width: '100%',
+          backgroundColor: '#F9FAFB',
+        }"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['grad_year'].touched ||
+            applyForm.controls['grad_year'].valid,
+          'border-red-500':
+            applyForm.controls['grad_year'].touched &&
+            applyForm.controls['grad_year'].invalid,
+        }"
+        placeholder="Enter your graduation year"
+        (keypress)="onKeyPressGraduationYear($event)"
+      />
+    </div>
+
+    <!-- Years of Experience -->
+    <div>
+      <label
+        for="experience_years"
+        class="mb-2 block text-sm font-medium text-gray-900"
+        >Years of Experience in Accounting Firm</label
+      >
+      <input
+        id="experience_years"
+        class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        formControlName="experience_years"
+        pInputText
+        type="number"
+        [style]="{
+          display: 'block',
+          width: '100%',
+          backgroundColor: '#F9FAFB',
+        }"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['experience_years'].touched ||
+            applyForm.controls['experience_years'].valid,
+          'border-red-500':
+            applyForm.controls['experience_years'].touched &&
+            applyForm.controls['experience_years'].invalid,
+        }"
+        placeholder="Number of years"
+        (keypress)="onKeyPressExperienceYears($event)"
+      />
+    </div>
+    <!-- Notice Period -->
+    <div>
+      <label
+        for="notice_period"
+        class="mb-2 block text-sm font-medium text-gray-900"
+        >Notice Period (in weeks)</label
+      >
+      <input
+        id="notice_period"
+        class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        formControlName="notice_period"
+        pInputText
+        type="number"
+        [style]="{
+          display: 'block',
+          width: '100%',
+          backgroundColor: '#F9FAFB',
+        }"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['notice_period'].touched ||
+            applyForm.controls['notice_period'].valid,
+          'border-red-500':
+            applyForm.controls['notice_period'].touched &&
+            applyForm.controls['notice_period'].invalid,
+        }"
+        placeholder="Number of weeks"
+        (keypress)="onKeyPressExperienceYears($event)"
+      />
+    </div>
+
+    <!-- Expected Salary -->
+    <div class="flex gap-3">
+      <div class="w-3/5 md:w-4/5">
+        <label
+          for="expected_salary"
+          class="mb-2 block text-sm font-medium text-gray-900"
+          >Expected Salary</label
+        >
+        <input
+          id="expected_salary"
+          class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          formControlName="expected_salary"
+          pInputText
+          type="number"
+          [style]="{
+            display: 'block',
+            width: '100%',
+            backgroundColor: '#F9FAFB',
+          }"
+          [ngClass]="{
+            'border-gray-300':
+              !applyForm.controls['expected_salary'].touched ||
+              applyForm.controls['expected_salary'].valid,
+            'border-red-500':
+              applyForm.controls['expected_salary'].touched &&
+              applyForm.controls['expected_salary'].invalid,
+          }"
+          placeholder="Expected Salary"
+          (keypress)="onKeyPressExpectedSalary($event)"
+        />
+      </div>
+      <div class="w-2/5 md:w-1/5">
+        <label
+          for="currency"
+          class="mb-2 block text-sm font-medium text-gray-900"
+          >Currency</label
+        >
+
+        <p-dropdown
+          formControlName="currency"
+          [options]="currencies"
+          id="currency"
+          placeholder="Select currency"
+          class="w-full !text-sm"
+          scrollHeight="300px"
+          [style]="{
+            width: '100%',
+            backgroundColor: '#F9FAFB',
+          }"
+        />
+      </div>
+    </div>
+
+    <!-- location eligibility -->
+    <div>
+      <label
+        for="location_eligibility"
+        class="mb-2 block text-sm font-medium text-gray-900"
+        >Are you eligible to work in this location?</label
+      >
+      <p-dropdown
+        formControlName="location_eligibility"
+        [options]="eligibleToWork"
+        id="location_eligibility"
+        placeholder="Select"
+        class="w-full !text-sm"
+        scrollHeight="300px"
+        [style]="{
+          width: '100%',
+          backgroundColor: '#F9FAFB',
+        }"
+      />
+    </div>
+
+    <!-- upload cv  -->
+    <div>
+      <label for="cv" class="mb-2 block text-sm font-medium text-gray-900"
+        >Upload CV</label
+      >
+      <div class="relative">
+        <input
+          type="file"
+          id="file_input"
+          accept=".pdf"
+          formControlName="cv"
+          class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+          (change)="onFileSelected($event)"
+        />
+
+        <div
+          class="flex items-center rounded-md border border-gray-300 bg-[#F9FAFB] p-3 transition-colors hover:border-blue-500"
+        >
+          <span class="flex-1 truncate text-gray-700">
+            <i class="pi pi-file-pdf mr-2 text-gray-600"></i>
+            @if (filename) {
+              {{ filename }}
+            } @else {
+              No file choosen
+            }
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!--  -->
+
+    <h2 class="mt-4 text-lg font-semibold">References</h2>
+    <p>
+      Please provide a minimum of two referees. These must cover the last two
+      years as a minimum. One must be your most recent or current employer.
+      Relatives or friends are not acceptable. Referees must hold a senior
+      position and their email address must be professional, not personal (e.g.,
+      Hotmail/ Yahoo).
+    </p>
+    <div formArrayName="references">
+      <div
+        *ngFor="let reference of references.controls; let i = index"
+        [formGroupName]="i"
+        class="mb-4 rounded border p-4"
+      >
+        <h3 class="font-medium">Reference {{ i + 1 }}</h3>
+
+        <div class="mb-3">
+          <label
+            for="referee_name"
+            class="mb-2 block text-sm font-medium text-gray-900"
+            >Name of Referee</label
+          >
+          <input
+            type="text"
+            id="referee_name"
+            autocomplete="referee_name"
+            pInputText
+            formControlName="referee_name"
+            class="block w-full rounded-lg border bg-gray-50 p-3 text-gray-900"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="referee_job_title"
+            class="mb-2 block text-sm font-medium text-gray-900"
+            >Job Title/Relationship to You</label
+          >
+          <input
+            type="text"
+            id="referee_job_title"
+            autocomplete="referee_job_title"
+            pInputText
+            formControlName="referee_job_title"
+            class="block w-full rounded-lg border bg-gray-50 p-3 text-gray-900"
+          />
+        </div>
+        <div class="mb-3">
+          <label
+            for="referee_school_establishment"
+            class="mb-2 block text-sm font-medium text-gray-900"
+            >School/Establishment</label
+          >
+          <input
+            type="text"
+            id="referee_school_establishment"
+            pInputText
+            formControlName="referee_school_establishment"
+            class="block w-full rounded-lg border bg-gray-50 p-3 text-gray-900"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="referee_address"
+            class="mb-2 block text-sm font-medium text-gray-900"
+            >Address</label
+          >
+          <input
+            id="referee_address"
+            class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            formControlName="referee_address"
+            pInputText
+            type="text"
+            [style]="{
+              display: 'block',
+              width: '100%',
+              backgroundColor: '#F9FAFB',
+            }"
+          />
+        </div>
+        <div class="mb-3">
+          <label
+            for="referee_phone_number"
+            class="mb-2 block text-sm font-medium text-gray-900"
+            >Phone Number</label
+          >
+          <input
+            id="referee_phone_number"
+            class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            formControlName="referee_phone_number"
+            pInputText
+            type="text"
+            (input)="onInput($event)"
+            [style]="{
+              display: 'block',
+              width: '100%',
+              backgroundColor: '#F9FAFB',
+            }"
+          />
+        </div>
+        <div class="mb-3">
+          <label
+            for="referee_email"
+            class="mb-2 block text-sm font-medium text-gray-900"
+            >Email Address</label
+          >
+          <input
+            type="email"
+            id="referee_email"
+            pInputText
+            formControlName="referee_email"
+            class="block w-full rounded-md bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div class="mb-3">
+          <label
+            for="dates_of_employment"
+            class="mb-2 block text-sm font-medium text-gray-900"
+            >Dates of Employment (From - To)</label
+          >
+          <input
+            id="dates_of_employment"
+            class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            formControlName="dates_of_employment"
+            pInputText
+            type="text"
+            [style]="{
+              display: 'block',
+              width: '100%',
+              backgroundColor: '#F9FAFB',
+            }"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="mt-2 flex items-center">
+            <p-checkbox
+              [binary]="true"
+              inputId="binary"
+              formControlName="permission_to_contact"
+            />
+            <span class="ml-2">Permission to Contact</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div class="mb-4 pb-6">
+      <label
+        for="disability_needs"
+        class="mb-2 block font-medium text-gray-900"
+      >
+        If you have a disability, what are your needs in terms of reasonable
+        adjustments to access this recruitment service and to attend an
+        interview?
+      </label>
+
+      <textarea
+        rows="6"
+        id="disability_needs"
+        class="block w-full rounded-lg border bg-gray-50 p-3 text-gray-900"
+        placeholder="Please specify your needs here..."
+        formControlName="disability_needs"
+      >
+      </textarea>
+    </div>
+    <!-- Submit Button -->
+
+    <p-button
+      label="Apply"
+      [style]="{
+        width: '100%',
+      }"
+      [disabled]="applyForm.invalid"
+      type="submit"
+      severity="danger"
+    />
+  </form>
+</main>
+
+<app-footer></app-footer>

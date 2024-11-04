@@ -1,0 +1,81 @@
+<section class="min-h-screen bg-gray-50">
+  <div
+    class="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0"
+  >
+    <h2 class="mb-6 text-center text-3xl font-bold text-primary">
+      ATC Careers Admin Dashboard
+    </h2>
+    <div
+      class="w-full rounded-lg bg-white shadow sm:max-w-md md:mt-0 xl:p-0 dark:border"
+    >
+      <div class="space-y-4 p-6 sm:p-8 md:space-y-6">
+        <form
+          class="space-y-4 md:space-y-6"
+          #adminLogin="ngForm"
+          (ngSubmit)="onLogin(adminLogin)"
+        >
+          <div>
+            <label
+              for="name"
+              class="mb-2 block text-sm font-medium text-gray-900"
+            >
+              User name</label
+            >
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              ngModel
+              pInputText
+              #name="ngModel"
+              [ngClass]="{
+                'ng-dirty': name.touched,
+                'ng-invalid': name.invalid && name.touched,
+              }"
+              class="block w-full rounded-lg border bg-gray-50 p-2.5 text-gray-900"
+              placeholder="Enter your user name"
+            />
+          </div>
+          <div>
+            <label
+              for="password"
+              class="mb-2 block text-sm font-medium text-gray-900"
+            >
+              Password</label
+            >
+            <input
+              type="password"
+              name="password"
+              required
+              ngModel
+              #password="ngModel"
+              pInputText
+              [ngClass]="{
+                'ng-dirty': password.touched,
+                'ng-invalid': password.invalid && password.touched,
+              }"
+              minlength="8"
+              id="password"
+              placeholder="••••••••"
+              class="block w-full rounded-lg border bg-gray-50 p-2.5 text-gray-900"
+            />
+          </div>
+          <div>
+            <p-button
+              label="Login"
+              [loading]="isLoading"
+              type="submit"
+              severity="danger"
+            />
+          </div>
+          @if (errorMessage) {
+            <div class="text-red-500">
+              {{ errorMessage }}
+            </div>
+          }
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

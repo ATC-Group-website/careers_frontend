@@ -10,11 +10,18 @@ import {
   BrowserModule,
   provideClientHydration,
 } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { authInterceptor } from './admin/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    BrowserModule,
+    BrowserAnimationsModule,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
