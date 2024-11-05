@@ -1,5 +1,11 @@
-import { NgOptimizedImage } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UserAuthService } from '../services/user-auth.service';
 import { DropdownModule } from 'primeng/dropdown';
@@ -14,56 +20,74 @@ import { MenuModule } from 'primeng/menu';
     RouterModule,
     DropdownModule,
     ButtonModule,
+    CommonModule,
     MenuModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
-  isLogged: boolean = false;
+  dropdownOpen = false;
+
+  isLogged!: boolean;
   userName: string | null = '';
 
   authService = inject(UserAuthService);
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private elementRef: ElementRef,
+  ) {
     this.dropdownItems = [
-      {
-        label: 'menu',
-      },
       {
         label: 'Profile',
         icon: 'pi pi-user',
         command: () => this.goToProfile(),
       },
-      {
-        label: 'Settings',
-        icon: 'pi pi-cog',
-        command: () => this.goToSettings(),
-      },
       { label: 'Logout', icon: 'pi pi-sign-out', command: () => this.logout() },
     ];
   }
   ngOnInit(): void {
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-      this.isLogged = localStorage.getItem('user') ? true : false;
-      this.userName = 'User';
-    }
+    this.authService.userToken.subscribe((token) => {
+      this.isLogged = !!token;
+    });
+
+    console.log(this.isLogged);
+
+    this.authService.userName$.subscribe((name) => {
+      this.userName = name;
+    });
+
+    // if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+    //   this.isLogged = localStorage.getItem('user') ? true : false;
+    //   this.userName = 'User';
+    // }
+    // this.authService.userName$.subscribe((name) => {
+    //   this.userName = name;
+    // });
   }
 
-  logOut() {
-    this.authService.logout();
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  goToProfile() {
+    this.router.navigate(['/profile']);
+    this.dropdownOpen = false;
   }
 
   dropdownItems: any[] = [];
 
-  goToProfile() {
-    // Navigate to profile page
-    this.router.navigate(['/profile']);
-  }
-
   goToSettings() {
     // Navigate to settings page
     this.router.navigate(['/settings']);
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.dropdownOpen = false;
+    }
   }
 
   logout() {
@@ -74,6 +98,7 @@ export class HeaderComponent implements OnInit {
         console.log('2');
 
         console.log('Logging out...');
+        localStorage.removeItem('user');
         this.router.navigate(['/login']); // Redirect to login page
       },
       error: (error) => {
@@ -82,5 +107,6 @@ export class HeaderComponent implements OnInit {
         console.log('Logout error:', error);
       },
     });
+    this.dropdownOpen = false;
   }
 }

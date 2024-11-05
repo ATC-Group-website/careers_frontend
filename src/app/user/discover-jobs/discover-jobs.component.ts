@@ -65,7 +65,7 @@ export class DiscoverJobsComponent implements OnInit {
   ngOnInit(): void {
     this.setupSearch();
     this.setupFilters();
-    this.getJobs(); // Initial fetch
+    this.getJobs();
     console.log('after ng oninit  finished');
   }
 
@@ -83,13 +83,13 @@ export class DiscoverJobsComponent implements OnInit {
     combineLatest([
       this.filterForm
         .get('location')!
-        .valueChanges.pipe(debounceTime(100), distinctUntilChanged()),
+        .valueChanges.pipe(debounceTime(0), distinctUntilChanged()),
       this.filterForm
         .get('departments')!
-        .valueChanges.pipe(debounceTime(100), distinctUntilChanged()),
+        .valueChanges.pipe(debounceTime(0), distinctUntilChanged()),
       this.filterForm
         .get('years')!
-        .valueChanges.pipe(debounceTime(100), distinctUntilChanged()),
+        .valueChanges.pipe(debounceTime(0), distinctUntilChanged()),
     ]).subscribe(() => {
       if (!this.isResetting) {
         this.resetAndFetch();
@@ -129,7 +129,7 @@ export class DiscoverJobsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           // console.log(response);
-          console.log('inside job fetch');
+          console.log('inside job fetch 1');
 
           this.loading = false;
           this.filterForm.enable(); // Re-enable controls after loading
@@ -180,7 +180,11 @@ export class DiscoverJobsComponent implements OnInit {
     event.preventDefault(); // Prevent the default action (form submission)
     this.getJobs();
     console.log('inside on search');
-     // Call getJobs() to fetch results based on current filter values
+    // Call getJobs() to fetch results based on current filter values
+  }
+
+  formatDepartment(department: string): string {
+    return department.replace(/_/g, ' ');
   }
 
   // old fetch

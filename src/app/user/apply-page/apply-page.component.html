@@ -44,7 +44,7 @@
         autocomplete="name"
         pInputText
         formControlName="name"
-        class="block w-full rounded-lg border bg-gray-50 p-3 text-gray-900"
+        class="block w-full rounded-lg border bg-gray-50 p-3"
         [ngClass]="{
           'border-gray-300':
             !applyForm.controls['name'].touched ||
@@ -66,7 +66,7 @@
         id="email"
         pInputText
         formControlName="email"
-        class="block w-full rounded-md bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:outline-none"
+        class="block w-full rounded-md bg-gray-50 p-3 focus:border-blue-500 focus:outline-none"
         autocomplete="email"
         [ngClass]="{
           'border-gray-300':
@@ -81,7 +81,7 @@
     </div>
 
     <!-- Phone Number -->
-    <div>
+    <!-- <div>
       <label
         for="phone_number"
         class="mb-2 block text-sm font-medium text-gray-900"
@@ -93,7 +93,48 @@
         formControlName="phone_number"
         pInputText
         type="number"
-        (input)="onInput($event)"
+        (keypress)="onKeyPressPhoneNumber($event)"
+        [style]="{
+          display: 'block',
+          width: '100%',
+          backgroundColor: '#F9FAFB',
+        }"
+        [ngClass]="{
+          'border-gray-300':
+            !applyForm.controls['phone_number'].touched ||
+            applyForm.controls['phone_number'].valid,
+          'border-red-500':
+            applyForm.controls['phone_number'].touched &&
+            applyForm.controls['phone_number'].invalid,
+        }"
+        placeholder="Enter your phone number"
+      />
+    </div> -->
+    <label
+      for="phone_number"
+      class="mb-2 block text-sm font-medium text-gray-900"
+      >Phone number</label
+    >
+    <!-- <p-inputGroup> -->
+    <!-- <p-dropdown
+        formControlName="country_code"
+        [options]="countryCodes"
+        placeholder="Code"
+        class="!text-sm"
+        scrollHeight="300px"
+        [style]="{
+          width: '110px',
+          backgroundColor: '#F9FAFB',
+        }" -->
+    <!-- /> -->
+    <div>
+      <input
+        id="phone_number"
+        class="block w-full rounded-md border [appearance:textfield] focus:border-blue-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        formControlName="phone_number"
+        pInputText
+        type="text"
+        (keypress)="onKeyPressPhoneNumber($event)"
         [style]="{
           display: 'block',
           width: '100%',
@@ -110,6 +151,7 @@
         placeholder="Enter your phone number"
       />
     </div>
+    <!-- </p-inputGroup> -->
 
     <!-- Address -->
     <div>
@@ -231,7 +273,7 @@
       <label
         for="experience_years"
         class="mb-2 block text-sm font-medium text-gray-900"
-        >Years of Experience in Accounting Firm</label
+        >Years of Experience</label
       >
       <input
         id="experience_years"
@@ -362,7 +404,7 @@
     </div>
 
     <!-- upload cv  -->
-    <div>
+    <div class="pb-4">
       <label for="cv" class="mb-2 block text-sm font-medium text-gray-900"
         >Upload CV</label
       >
@@ -393,7 +435,7 @@
 
     <!--  -->
 
-    <h2 class="mt-4 text-lg font-semibold">References</h2>
+    <!-- <h2 class="mt-4 text-lg font-semibold">References</h2>
     <p>
       Please provide a minimum of two referees. These must cover the last two
       years as a minimum. One must be your most recent or current employer.
@@ -539,9 +581,9 @@
           </label>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--  -->
-    <div class="mb-4 pb-6">
+    <!-- <div class="mb-4 pb-6">
       <label
         for="disability_needs"
         class="mb-2 block font-medium text-gray-900"
@@ -559,11 +601,12 @@
         formControlName="disability_needs"
       >
       </textarea>
-    </div>
+    </div> -->
     <!-- Submit Button -->
 
     <p-button
       label="Apply"
+      [loading]="isLoading"
       [style]="{
         width: '100%',
       }"
@@ -572,6 +615,7 @@
       severity="danger"
     />
   </form>
+  <p-toast></p-toast>
 </main>
 
 <app-footer></app-footer>

@@ -65,19 +65,26 @@
           placeholder="Enter your password"
         />
       </div>
+      @if (errorMessage) {
+        <div class="text-sm text-red-500">{{ errorMessage }}</div>
+      }
       <p-button
         label="Login"
+        [disabled]="userLogin.invalid"
         [style]="{
           width: '100%',
         }"
         [loading]="isLoading"
         type="submit"
-        severity="danger"
       />
     </form>
     <!-- Sign up  Link -->
-    <div class="mt-6 text-center text-blue-500">
-      <a routerLink="/register" class="hover:underline">Sign up Here</a>
+    <div class="mt-6 text-center text-gray-500">
+      <a
+        routerLink="/register"
+        class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+        >Sign up Here</a
+      >
     </div>
   </div>
 </div>

@@ -6,12 +6,19 @@ import { Job } from '../../admin/interfaces/admin.interface';
 import { CareersService } from '../services/careers.service';
 import { ButtonModule } from 'primeng/button';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { LoadingSpinnerComponent } from "../../loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-job-details',
   standalone: true,
-  imports: [FooterComponent, HeaderComponent, ButtonModule, LoadingSpinnerComponent],
+  imports: [
+    FooterComponent,
+    HeaderComponent,
+    ButtonModule,
+    LoadingSpinnerComponent,
+    TitleCasePipe,
+  ],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.css',
 })
@@ -53,5 +60,9 @@ export class JobDetailsComponent implements OnInit {
 
   sanitizeHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
+  formatDepartment(department: string): string {
+    return department.replace(/_/g, ' ');
   }
 }

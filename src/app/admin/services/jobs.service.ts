@@ -99,5 +99,20 @@ export class JobsService {
     { label: '10+ years', value: '10+' },
   ];
 
-  departments: string[] = ['Taxing', 'Accounting', 'Auditing', 'HR', 'Vat'];
+  departments: { label: string; value: string }[] = [
+    { label: 'Audit', value: 'audit' },
+    { label: 'Bookkeeping', value: 'bookkeeping' },
+    { label: 'Corporate Tax', value: 'corporate_tax' },
+    { label: 'Development', value: 'development' },
+    { label: 'Financial Management', value: 'financial_management' },
+    { label: 'HR', value: 'HR' },
+    { label: 'Insurance', value: 'insurance' },
+    { label: 'International Taxation', value: 'international_taxation' },
+    { label: 'IT', value: 'it' },
+    { label: 'Marketing', value: 'marketing' },
+    { label: 'Payroll', value: 'payroll' },
+    { label: 'Sales', value: 'sales' },
+    { label: 'Stamp Tax', value: 'stamp_tax' },
+    { label: 'Value Added Tax (VAT)', value: 'vat' },
+  ];
 }

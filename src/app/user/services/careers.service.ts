@@ -1,12 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UserAuthService } from './user-auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CareersService {
   http = inject(HttpClient);
+  userAuth = inject(UserAuthService);
 
   private apiUrl = 'https://test.ahleldaraeb.com';
 
@@ -38,8 +40,14 @@ export class CareersService {
     return this.http.get(`${this.apiUrl}/jobs/${id}`);
   }
 
-  applyAsGuest(formData: any, id: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/apply/${id}`, formData);
+  applyAsGuest(formData: any, jobId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/apply/${jobId}`, formData);
+  }
+
+  applyAsUser(formData: any, jobId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/apply/${jobId}`, formData, {
+      headers: this.userAuth.getAuthUserHeaders(),
+    });
   }
 
   locations: { label: string; value: string }[] = [
@@ -69,11 +77,19 @@ export class CareersService {
 
   departments: { label: string; value: string }[] = [
     { label: 'All Departments', value: '' }, // Add this option for clearing the filter
-    { label: 'Auditing', value: 'Auditing' },
-    { label: 'Taxation', value: 'Taxation' },
-    { label: 'Vat', value: 'Vat' },
+    { label: 'Audit', value: 'audit' },
+    { label: 'Bookkeeping', value: 'bookkeeping' },
+    { label: 'Corporate Tax', value: 'corporate_tax' },
+    { label: 'Development', value: 'development' },
+    { label: 'Financial Management', value: 'financial_management' },
     { label: 'HR', value: 'HR' },
-    { label: 'Managerial', value: 'managerial' },
-    { label: 'Accounting', value: 'Accounting' },
+    { label: 'Insurance', value: 'insurance' },
+    { label: 'International Taxation', value: 'international_taxation' },
+    { label: 'IT', value: 'it' },
+    { label: 'Marketing', value: 'marketing' },
+    { label: 'Payroll', value: 'payroll' },
+    { label: 'Sales', value: 'sales' },
+    { label: 'Stamp Tax', value: 'stamp_tax' },
+    { label: 'Value Added Tax (VAT)', value: 'vat' },
   ];
 }

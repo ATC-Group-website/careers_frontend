@@ -15,7 +15,8 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { JobsService } from '../services/jobs.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-job-details',
@@ -29,6 +30,7 @@ import { ActivatedRoute } from '@angular/router';
     ButtonModule,
     FormsModule,
     RippleModule,
+    LoadingSpinnerComponent,
   ],
   providers: [MessageService],
   templateUrl: './job-details.component.html',
@@ -38,6 +40,7 @@ export class JobDetailsComponent implements OnInit {
   messageService = inject(MessageService);
   jobsService = inject(JobsService);
   route = inject(ActivatedRoute);
+  router = inject(Router);
 
   job!: Job;
   id!: number;
@@ -52,27 +55,10 @@ export class JobDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.fetchJobDetails();
     // Change the array to strings
-    this.cities = [
-      'Cairo',
-      'Giza',
-      'Alexandria',
-      'Riyadh',
-      'Jeddah',
-      'Makkah',
-      'Al Khobar',
-      'Dubai',
-    ];
+    this.cities = this.jobsService.cities;
+    this.departments = this.jobsService.departments;
 
-    this.departments = [
-      'Tax',
-      'Accounting',
-      'Auditing',
-      'Manegerial',
-      'HR',
-      'Vat',
-    ];
-
-    this.years = ['0 - 2', '2 - 4', '4 - 6', '6+'];
+    this.years = this.jobsService.yearsOfExperience;
 
     this.updateJobForm = new FormGroup({
       title: new FormControl('', Validators.required),
@@ -131,10 +117,17 @@ export class JobDetailsComponent implements OnInit {
             summary: 'success',
             detail: 'Job updated successfully',
           });
+          setTimeout(() => {
+            this.router.navigate(['/admin/dashboard/jobs']); // Replace '/jobs' with the desired route
+          }, 1500); // Delay in milliseconds (2 seconds)
         },
         error: (error) => {
           this.isLoading = false;
           console.error('Error updating job:', error);
+          if ((error.status = 401)) {
+            sessionStorage.removeItem('token');
+            this.router.navigateByUrl('admin/login');
+          }
           this.messageService.add({
             severity: 'error',
             summary: 'Error',

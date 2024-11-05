@@ -1,93 +1,76 @@
-<section class="mx-auto mt-20 max-w-screen-xl p-5">
-  <div class="card">
-    <p-table
-      [value]="jobs"
-      [lazy]="true"
-      [paginator]="true"
-      [rows]="jobsPerPage"
-      [loading]="loading"
-      [first]="0"
-      [totalRecords]="totalJobs"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      (onLazyLoad)="onPageChange($event)"
-    >
-      <ng-template pTemplate="caption">
-        <div>
-          <h2 class="text-center">Jobs opennings</h2>
-        </div>
-      </ng-template>
+@if (jobs) {
+  <section class="mx-auto mt-20 max-w-screen-xl p-5">
+    <div class="card">
+      <p-table
+        [value]="jobs"
+        [lazy]="true"
+        [paginator]="true"
+        [rows]="jobsPerPage"
+        [loading]="loading"
+        [first]="0"
+        [totalRecords]="totalJobs"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        (onLazyLoad)="onPageChange($event)"
+      >
+        <ng-template pTemplate="caption">
+          <div>
+            <h2 class="text-center">Jobs opennings</h2>
+          </div>
+        </ng-template>
 
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 2rem">#</th>
-          <th style="width: 20%">Title</th>
-          <th style="width: 15%">Years of experience</th>
-          <th style="width: 20%">Department</th>
-          <th style="width: 10%">Location</th>
-          <th style="width: 20%">Applicants</th>
-          <th class="text-center">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-job>
-        <tr>
-          <td>{{ job.id }}</td>
-          <td>{{ job.title }}</td>
-          <td>{{ job.years }}</td>
-          <td>{{ job.department }}</td>
-          <td>{{ job.location }}</td>
-          <td>
-            <a class="cursor-pointer hover:underline"> View applicants </a>
-          </td>
-          <td class="flex items-center justify-around">
-            <!-- <a [routerLink]="['/admin/dashboard/jobs', job.id]"> -->
-            <!-- <i
-              (click)="navigateToDetails(job.id)"
-              pTooltip="Edit"
-              tooltipPosition="bottom"
-              class="pi pi-pen-to-square me-4 cursor-pointer text-xl text-blue-500 hover:text-blue-600 py-3"
-            ></i> -->
-            <!-- <a
-              (click)="navigateToDetails(job.id)"
-              class="flex items-center justify-center"
-            >
-              <i
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 2rem">#</th>
+            <th style="width: 20%">Title</th>
+            <th style="width: 15%">Years of experience</th>
+            <th style="width: 20%">Department</th>
+            <th style="width: 10%">Location</th>
+            <th style="width: 20%">Applicants</th>
+            <th>Edit</th>
+            <th>Archive</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-job>
+          <tr>
+            <td>{{ job.id }}</td>
+            <td>{{ job.title }}</td>
+            <td>{{ job.years }}</td>
+            <td>{{ formatDepartment(job.department) | titlecase }}</td>
+            <td>{{ job.location.split(",")[0] }}</td>
+            <td>
+              <a class="cursor-pointer hover:underline"> View applicants </a>
+            </td>
+            <td>
+              <p-button
+                (onClick)="navigateToDetails(job.id)"
+                icon="pi pi-pen-to-square text-2xl text-blue-500 hover:text-blue-600"
+                link="true"
+                class="p-0"
                 pTooltip="Edit"
                 tooltipPosition="bottom"
-                class="pi pi-pen-to-square cursor-pointer py-3 text-xl text-blue-500 hover:text-blue-600"
-              ></i>
-            </a> -->
-            <p-button
-              (onClick)="navigateToDetails(job.id)"
-              icon="pi pi-pen-to-square text-2xl text-blue-500 hover:text-blue-600"
-              link="true"
-              class="p-0"
-              pTooltip="Edit"
-              tooltipPosition="bottom"
-            />
-            <p-button
-              (onClick)="confirmArchive($event, job.id)"
-              severity="danger"
-              icon="fa-solid fa-folder-minus text-2xl text-yellow-500 hover:text-yellow-700"
-              link="true"
-              class="p-0"
-              pTooltip="Archive"
-              tooltipPosition="bottom"
-            />
-            <!-- <p-button
-              (onClick)="confirmDelete($event, job.id)"
-              severity="danger"
-              icon="pi pi-trash text-2xl text-red-500 hover:text-red-700"
-              link="true"
-              class="p-0"
-              pTooltip="Delete"
-              tooltipPosition="bottom"
-            /> -->
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <p-toast />
-    <p-confirmDialog />
+              />
+            </td>
+            <td>
+              <p-button
+                (onClick)="confirmArchive($event, job.id)"
+                severity="danger"
+                icon="fa-solid fa-folder-minus text-2xl text-yellow-500 hover:text-yellow-700"
+                link="true"
+                class="p-0"
+                pTooltip="Archive"
+                tooltipPosition="bottom"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-toast />
+      <p-confirmDialog />
+    </div>
+  </section>
+} @else {
+  <div class="flex h-screen w-screen items-center justify-center">
+    <app-loading-spinner></app-loading-spinner>
   </div>
-</section>
+}

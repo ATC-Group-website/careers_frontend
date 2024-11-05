@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
 import {
@@ -8,13 +8,18 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { CareersService } from '../services/careers.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-apply-page',
@@ -29,25 +34,40 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     CheckboxModule,
     InputTextareaModule,
     ButtonModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    ToastModule,
   ],
+  providers: [MessageService],
   templateUrl: './apply-page.component.html',
   styleUrl: './apply-page.component.css',
 })
 export class ApplyPageComponent implements OnInit {
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+  careersService = inject(CareersService);
+  messageService = inject(MessageService);
+
   isLoggedIn: boolean = false; // Adjust this logic based on your authentication state
   showMessage: boolean = true; // State to control message visibility
 
   applyForm!: FormGroup;
-  router = inject(Router);
   selectedBase64File: string | null = null;
   isLoading: boolean = false;
   filename: string | null = null;
   checked: boolean = false;
+  jobId!: number;
 
   currencies: string[] = ['EGP', 'SAR', 'AED'];
   eligibleToWork: string[] = ['Yes', 'No'];
 
-  constructor() {}
+  // countryCodes = [
+  //   { label: '+20', value: '+20' },
+  //   { label: '+966', value: '+966' },
+  //   { label: '+971', value: '+971' },
+  // ];
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
@@ -56,10 +76,17 @@ export class ApplyPageComponent implements OnInit {
     }
     // get user token and get his data to fetch it in the inputs
 
+    this.route.params.subscribe((params) => {
+      this.jobId = parseInt(params['id'], 10);
+    });
+
     this.applyForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      phone_number: new FormControl(null, Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      phone_number: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]*$'),
+      ]),
       address: new FormControl('', Validators.required),
       university: new FormControl('', Validators.required),
       major: new FormControl('', Validators.required),
@@ -83,50 +110,139 @@ export class ApplyPageComponent implements OnInit {
       ]),
       currency: new FormControl('', Validators.required),
       location_eligibility: new FormControl('', Validators.required),
-      cv: new FormControl(null),
-      references: new FormArray([]),
-      disability_needs: new FormControl('', Validators.required), // Control for health and disability
+      cv: new FormControl(null, Validators.required),
+      // references: new FormArray([]),
+      // disability_needs: new FormControl('', Validators.required), // Control for health and disability
     });
 
-    // Initialize References FormArray with 2 referees
-    for (let i = 0; i < 1; i++) {
-      this.references.push(this.createReference());
-    }
+    // // Initialize References FormArray with 2 referees
+    // for (let i = 0; i < 1; i++) {
+    //   this.references.push(this.createReference());
+    // }
   }
 
   onApply(): void {
-    if (this.applyForm.valid) {
+    if (this.applyForm.invalid) {
+      Object.keys(this.applyForm.controls).forEach((field) => {
+        const control = this.applyForm.controls[field];
+        control.markAsTouched({ onlySelf: true });
+      });
+    } else if (this.applyForm.valid) {
+      this.isLoading = true;
+
       console.log(this.applyForm.value);
       console.log(this.applyForm);
 
-      // Implement form submission logic here
-    } else {
-      console.log('error');
+      const formData = {
+        name: this.applyForm.controls['name'].value,
+        email: this.applyForm.controls['email'].value,
+        phone_number: this.applyForm.controls['phone_number'].value,
+        address: this.applyForm.controls['address'].value,
+        university: this.applyForm.controls['university'].value,
+        major: this.applyForm.controls['major'].value,
+        grad_year: this.applyForm.controls['grad_year'].value,
+        years_of_experience: this.applyForm.controls['experience_years'].value,
+        notice_period: this.applyForm.controls['notice_period'].value,
+        expected_salary: this.applyForm.controls['expected_salary'].value,
+        currency: this.applyForm.controls['currency'].value,
+        location_eligibility:
+          this.applyForm.controls['location_eligibility'].value === 'Yes'
+            ? true
+            : false,
+        base64_pdf: this.selectedBase64File,
+      };
+
+      console.log(formData);
+
+      if (isPlatformBrowser(this.platformId)) {
+        const token = localStorage.getItem('user');
+
+        if (isNaN(this.jobId)) {
+          this.isLoading = false;
+          return;
+        }
+
+        if (token !== null) {
+          this.careersService.applyAsUser(formData, this.jobId).subscribe({
+            next: (res) => {
+              console.log('user');
+
+              console.log(res);
+              this.isLoading = false;
+              this.messageService.add({
+                severity: 'success',
+                summary: 'success',
+                detail: 'You applied to the job! successfully',
+              });
+            },
+            error: (err) => {
+              console.log('user');
+
+              console.error(err);
+              this.isLoading = false;
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+              });
+            },
+          });
+        } else {
+          this.careersService.applyAsGuest(formData, this.jobId).subscribe({
+            next: (res) => {
+              console.log('guest');
+
+              console.log(res);
+              this.isLoading = false;
+              this.messageService.add({
+                severity: 'success',
+                summary: 'success',
+                detail: 'You applied to the job! successfully',
+              });
+            },
+            error: (err) => {
+              console.log('guest');
+
+              console.error(err);
+              this.isLoading = false;
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: err.error.message,
+              });
+            },
+          });
+        }
+      }
     }
   }
 
-  createReference(): FormGroup {
-    return new FormGroup({
-      referee_name: new FormControl('', Validators.required),
-      referee_job_title: new FormControl('', Validators.required),
-      referee_school_establishment: new FormControl('', Validators.required),
-      referee_address: new FormControl('', Validators.required),
-      referee_phone_number: new FormControl('', Validators.required),
-      referee_email: new FormControl('', [
-        Validators.required,
-        Validators.email,
-      ]),
-      dates_of_employment: new FormControl('', Validators.required), // Include "From - To" in your implementation
-      permission_to_contact: new FormControl(false), // Checkbox for permission to contact
-    });
-  }
+  // createReference(): FormGroup {
+  //   return new FormGroup({
+  //     referee_name: new FormControl('', Validators.required),
+  //     referee_job_title: new FormControl('', Validators.required),
+  //     referee_school_establishment: new FormControl('', Validators.required),
+  //     referee_address: new FormControl('', Validators.required),
+  //     referee_phone_number: new FormControl('', Validators.required),
+  //     referee_email: new FormControl('', [
+  //       Validators.required,
+  //       Validators.email,
+  //     ]),
+  //     dates_of_employment: new FormControl('', Validators.required), // Include "From - To" in your implementation
+  //     permission_to_contact: new FormControl(false), // Checkbox for permission to contact
+  //   });
+  // }
 
-  get references(): FormArray {
-    return this.applyForm.get('references') as FormArray;
-  }
-  onInput(event: Event): void {
+  // get references(): FormArray {
+  //   return this.applyForm.get('references') as FormArray;
+  // }
+
+  onKeyPressPhoneNumber(event: KeyboardEvent): void {
     const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/[^0-9]/g, ''); // Only allows numbers
+
+    // Only allow numbers
+    if (!/[0-9]/.test(event.key)) {
+      event.preventDefault(); // Prevent non-numeric characters
+    }
   }
 
   onKeyPressGraduationYear(event: KeyboardEvent): void {

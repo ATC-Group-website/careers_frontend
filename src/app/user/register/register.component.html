@@ -145,6 +145,13 @@
                   [feedback]="true"
                   placeholder="Repeat your password"
                 />
+                <!-- Error message displayed when passwords do not match -->
+                @if (
+                  registerForm.hasError("passwordMismatch") &&
+                  registerForm.get("confirmPassword")?.touched
+                ) {
+                  <div class="text-sm text-red-500">Passwords do not match</div>
+                }
               </div>
               <div>
                 <label
@@ -203,73 +210,44 @@
                   placeholder="Enter your address"
                 />
               </div>
-              <div>
+              <div class="pb-4">
                 <label
                   for="cv"
                   class="mb-2 block text-sm font-medium text-gray-900"
-                  >Upload your CV</label
+                  >Upload CV</label
                 >
-                <!-- <div class="card justify-content-center flex">
-                  <p-toast />
-                  <p-fileUpload
-                    mode="basic"
-                    chooseLabel="Upload"
-                    chooseIcon="pi pi-upload"
-                    class="flex-1"
-                    styleClass="border-gray-200 w-full bg-gray-50 text-black"
-                    [style]="{ width: '100%' }"
-                    id="cv"
+                <div class="relative">
+                  <input
+                    type="file"
+                    id="file_input"
                     accept=".pdf"
-                    maxFileSize="1000000"
-                    [ngClass]="{
-                      'ng-invalid ng-dirty':
-                        registerForm.controls['cv'].invalid &&
-                        registerForm.controls['cv'].touched,
-                    }"
+                    formControlName="cv"
+                    class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                    (change)="onFileSelected($event)"
                   />
-                </div> -->
-                <div>
-                  <div class="relative">
-                    <input
-                      type="file"
-                      id="file_input"
-                      accept=".pdf"
-                      formControlName="cv"
-                      class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                      (change)="onFileSelected($event)"
-                    />
 
-                    <div
-                      class="flex items-center rounded-md border border-gray-300 bg-white p-3 transition-colors hover:border-blue-500"
-                    >
-                      <span class="flex-1 truncate text-gray-700">
-                        <i class="pi pi-file-pdf mr-2 text-gray-600"></i>
-                        @if (filename) {
-                          {{ filename }}
-                        } @else {
-                          No file choosen
-                        }
-                      </span>
-                      <button
-                        type="button"
-                        class="ml-2 inline-flex items-center rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                        onclick="event.preventDefault()"
-                      >
-                        <i class="pi pi-upload mr-2"></i>
-                        Choose File
-                      </button>
-                    </div>
+                  <div
+                    class="flex items-center rounded-md border border-gray-300 bg-[#F9FAFB] p-3 transition-colors hover:border-blue-500"
+                  >
+                    <span class="flex-1 truncate text-gray-700">
+                      <i class="pi pi-file-pdf mr-2 text-gray-600"></i>
+                      @if (filename) {
+                        {{ filename }}
+                      } @else {
+                        No file choosen
+                      }
+                    </span>
                   </div>
                 </div>
               </div>
-
               <div>
                 <p-button
                   label="Register"
+                  [loading]="isLoading"
                   [style]="{
                     width: '100%',
                   }"
-                  [loading]="isLoading"
+                  [disabled]="registerForm.invalid"
                   type="submit"
                 />
               </div>

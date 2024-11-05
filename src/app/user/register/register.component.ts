@@ -80,13 +80,13 @@ export class RegisterComponent implements OnInit {
           Validators.required,
           Validators.minLength(8),
         ]),
-        confirmPassword: new FormControl('', [
+        confirmPassword: new FormControl('', [Validators.required]),
+        phone_number: new FormControl('', [
           Validators.required,
-          Validators.minLength(8),
+          Validators.pattern('^[0-9]*$'),
         ]),
-        phone_number: new FormControl(null, Validators.required),
         address: new FormControl('', Validators.required),
-        cv: new FormControl(null),
+        cv: new FormControl(null, Validators.required),
       },
       { validators: this.passwordMatchValidator() },
     );

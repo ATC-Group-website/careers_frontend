@@ -7,7 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { UserAuthService } from '../services/user-auth.service';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from "../footer/footer.component";
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-login',
@@ -20,8 +20,8 @@ import { FooterComponent } from "../footer/footer.component";
     CommonModule,
     ButtonModule,
     PasswordModule,
-    FooterComponent
-],
+    FooterComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -55,7 +55,12 @@ export class LoginComponent {
         next: (response) => {
           console.log(response);
 
+          // Get a timestamp 1 minute in the past for testing
+          const oneMinuteAgo = Date.now() + 30000;
+          localStorage.setItem('expiration_timee', oneMinuteAgo.toString());
+
           this.authService.setToken(response.token);
+
           this.router.navigateByUrl('');
           this.isLoading = false;
         },

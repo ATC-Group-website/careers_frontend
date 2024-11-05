@@ -8,7 +8,8 @@
           <strong>Location:</strong> {{ job.location }}
         </p>
         <p class="text-gray-700">
-          <strong>Department:</strong> {{ job.department }}
+          <strong>Department:</strong>
+          {{ formatDepartment(job.department) | titlecase }}
         </p>
       </div>
       <!-- <p><strong>Years of Experience:</strong> {{ job.years }}</p> -->

@@ -10,6 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { JobsService } from '../services/jobs.service';
+import { LoadingSpinnerComponent } from "../../loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-jobs',
@@ -23,7 +24,8 @@ import { JobsService } from '../services/jobs.service';
     RouterModule,
     TooltipModule,
     InputTextModule,
-  ],
+    LoadingSpinnerComponent
+],
   providers: [ConfirmationService, MessageService],
   templateUrl: './jobs.component.html',
   styleUrl: './jobs.component.css',
@@ -107,6 +109,10 @@ export class JobsComponent implements OnInit {
         });
       },
     });
+  }
+
+  formatDepartment(department: string): string {
+    return department.replace(/_/g, ' ');
   }
 
   // confirmDelete(event: Event, jobId: number) {
