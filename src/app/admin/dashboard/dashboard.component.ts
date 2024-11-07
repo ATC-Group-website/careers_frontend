@@ -4,6 +4,7 @@ import { AdminAuthService } from '../services/admin-auth.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { SidebarService } from '../sidebar/sidebar.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +18,12 @@ export class DashboardComponent {
   router = inject(Router);
   sidebarService = Inject(SidebarService);
 
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {
+    this.title.setTitle('ATC Careers');
+  }
   logout() {
     this.authService.logout().subscribe({
       next: (res) => {

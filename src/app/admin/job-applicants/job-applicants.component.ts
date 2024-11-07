@@ -20,6 +20,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
+import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-job-applicants',
   standalone: true,
@@ -74,9 +75,14 @@ export class JobApplicantsComponent implements OnInit {
   router = inject(Router);
   userId: string = '';
 
-  constructor() {}
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {}
 
   ngOnInit(): void {
+    this.title.setTitle('ATC Careers');
+
     this.fetchApplicants();
     this.loading = false;
 

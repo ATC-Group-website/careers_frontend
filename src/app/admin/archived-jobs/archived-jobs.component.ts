@@ -11,6 +11,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { JobsService } from '../services/jobs.service';
 import { TopbarComponent } from '../topbar/topbar.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-archived-jobs',
@@ -42,7 +43,13 @@ export class ArchivedJobsComponent implements OnInit {
   jobsService = inject(JobsService);
   router = inject(Router);
 
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {}
+
   ngOnInit(): void {
+    this.title.setTitle('ATC Careers');
     this.fetchArchivedJobs(this.currentPage);
     this.loading = false;
   }

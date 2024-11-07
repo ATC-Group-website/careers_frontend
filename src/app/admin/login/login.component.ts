@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AdminAuthService } from '../services/admin-auth.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,12 @@ export class LoginComponent {
   isLoading: boolean = false;
   errorMessage: string | null = null;
 
-  constructor() {
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {
+    this.title.setTitle('ATC Careers');
+
     if (
       typeof window !== 'undefined' &&
       typeof sessionStorage !== 'undefined'

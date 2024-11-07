@@ -12,6 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { JobsService } from '../services/jobs.service';
 import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
 import { TopbarComponent } from '../topbar/topbar.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-jobs',
@@ -44,7 +45,14 @@ export class JobsComponent implements OnInit {
   jobsService = inject(JobsService);
   router = inject(Router);
 
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {}
+
   ngOnInit(): void {
+    this.title.setTitle('ATC Careers');
+
     this.fetchJobs(this.currentPage);
     this.loading = false;
   }

@@ -12,7 +12,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { JobsService } from '../services/jobs.service';
-import { TopbarComponent } from "../topbar/topbar.component";
+import { TopbarComponent } from '../topbar/topbar.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-new-job',
@@ -24,8 +25,8 @@ import { TopbarComponent } from "../topbar/topbar.component";
     EditorModule,
     ToastModule,
     ButtonModule,
-    TopbarComponent
-],
+    TopbarComponent,
+  ],
   providers: [MessageService],
   templateUrl: './new-job.component.html',
   styleUrl: './new-job.component.css',
@@ -40,9 +41,13 @@ export class NewJobComponent implements OnInit {
   newJobForm!: FormGroup;
   isLoading: boolean = false;
 
-  constructor() {}
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {}
 
   ngOnInit(): void {
+    this.title.setTitle('ATC Careers');
     this.cities = this.jobsService.cities;
     this.departments = this.jobsService.departments;
     this.years = this.jobsService.yearsOfExperience;

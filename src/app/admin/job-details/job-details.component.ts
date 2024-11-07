@@ -17,7 +17,8 @@ import { RippleModule } from 'primeng/ripple';
 import { JobsService } from '../services/jobs.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
-import { TopbarComponent } from "../topbar/topbar.component";
+import { TopbarComponent } from '../topbar/topbar.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-job-details',
@@ -32,8 +33,8 @@ import { TopbarComponent } from "../topbar/topbar.component";
     FormsModule,
     RippleModule,
     LoadingSpinnerComponent,
-    TopbarComponent
-],
+    TopbarComponent,
+  ],
   providers: [MessageService],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.css',
@@ -54,7 +55,14 @@ export class JobDetailsComponent implements OnInit {
   formGroup: FormGroup | undefined;
   isLoading: boolean = false;
 
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {}
+
   ngOnInit(): void {
+    this.title.setTitle('ATC Careers');
+
     this.fetchJobDetails();
     // Change the array to strings
     this.cities = this.jobsService.cities;
