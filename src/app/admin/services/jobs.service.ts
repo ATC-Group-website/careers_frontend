@@ -22,7 +22,7 @@ export class JobsService {
 
   public getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
-    console.log(token);
+    // console.log(token);
 
     let headers = new HttpHeaders();
     if (token) {
@@ -41,6 +41,12 @@ export class JobsService {
     return this.http.get(
       `${this.apiUrl}/jobs/paginate/${jobsPerPage}?page=${pageNum}`,
     );
+  }
+
+  getApplicants(jobId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/jobs/${jobId}/users`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getPaginatedArchivedJobs(
@@ -73,6 +79,23 @@ export class JobsService {
     return this.http.patch(
       `${this.apiUrl}/jobs/${id}/toggle-archived`,
       {},
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
+  }
+
+  updateApplicantStatus(
+    jobId: number,
+    email: string,
+    statusValue: string,
+  ): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/jobs/${jobId}/status`,
+      {
+        status: statusValue,
+        email: email,
+      },
       {
         headers: this.getAuthHeaders(),
       },

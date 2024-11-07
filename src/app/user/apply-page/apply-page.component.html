@@ -1,38 +1,45 @@
 <app-header></app-header>
 
-<main class="min-h-screen p-4">
-  @if (!isLoggedIn && showMessage) {
-    <div class="relative mx-auto max-w-screen-sm shadow-lg">
-      <div class="rounded border bg-gray-100 p-4 text-center">
-        <button
-          (click)="closeMessage()"
-          class="absolute right-2 top-2 cursor-pointer border-0 text-gray-600 hover:text-gray-900"
-        >
-          <i class="pi pi-times"></i>
-          <!-- Close icon -->
-        </button>
-        <p class="mb-2 text-gray-700">
-          You can log in to monitor and manage your applications.
+<main class="min-h-screen bg-[#fbfbfb] p-4">
+  <p-dialog
+    [(visible)]="showLoginDialog"
+    header="Log in to track your applications"
+    [modal]="true"
+    [closable]="true"
+    [draggable]="false"
+    width="400"
+    [style]="{
+      margin: '16px',
+      maxWidth: '90%',
+    }"
+    [baseZIndex]="1000"
+  >
+    <p class="mb-5">
+      Logging in allows you to track your application status and manage multiple
+      applications easily.
+    </p>
+    <p-button label="Log in here" type="button" (onClick)="goToLogin()" />
+  </p-dialog>
+  @if (job && !isLoading) {
+    <section class="mx-auto max-w-screen-md rounded-md bg-white shadow-lg">
+      <div class="p-3 text-center">
+        <h1 class="text-center">{{ job.title }}</h1>
+        <p class="text-gray-700">
+          <strong>Location:</strong> {{ job.location }}
         </p>
-        <p class="mb-4 text-gray-500">
-          Logging in allows you to track your application status and manage
-          multiple applications easily.
+        <p class="text-gray-700">
+          <strong>Department:</strong>
+          {{ formatDepartment(job.department) | titlecase }}
         </p>
-        <a
-          routerLink="/login"
-          class="cursor-pointer text-blue-600 hover:underline"
-          >Log in here</a
-        >
       </div>
-      <!-- Other content here -->
-    </div>
+    </section>
   }
-
   <form
     [formGroup]="applyForm"
     (ngSubmit)="onApply()"
     class="mx-auto my-12 max-w-screen-md space-y-4 rounded-md bg-white p-5 shadow-lg"
   >
+    <h3 class="text-center">Job Application</h3>
     <!-- Name -->
     <div>
       <label for="name" class="mb-2 block text-sm font-medium text-gray-900">

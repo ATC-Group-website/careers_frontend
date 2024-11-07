@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -16,6 +16,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { combineLatest } from 'rxjs';
+import { EmailResumeComponent } from '../email-resume/email-resume.component';
+import { Meta, Title } from '@angular/platform-browser';
+import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-discover-jobs',
@@ -33,6 +36,8 @@ import { combineLatest } from 'rxjs';
     ButtonModule,
     DropdownModule,
     ReactiveFormsModule,
+    EmailResumeComponent,
+    LoadingSpinnerComponent,
   ],
   templateUrl: './discover-jobs.component.html',
   styleUrl: './discover-jobs.component.css',
@@ -60,13 +65,23 @@ export class DiscoverJobsComponent implements OnInit {
     years: new FormControl({ value: '', disabled: false }),
   });
 
-  constructor() {}
-
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private title: Title,
+    private meta: Meta,
+  ) {}
   ngOnInit(): void {
+    this.title.setTitle('ATC Careers');
+
+    this.meta.updateTag({
+      name: 'description',
+      content:
+        'Explore current job openings at ATC Careers. Apply today to join our team and advance your career with exciting opportunities.',
+    });
+
     this.setupSearch();
     this.setupFilters();
     this.getJobs();
-    console.log('after ng oninit  finished');
   }
 
   setupSearch() {
@@ -75,7 +90,7 @@ export class DiscoverJobsComponent implements OnInit {
       ?.valueChanges.pipe(debounceTime(0), distinctUntilChanged())
       .subscribe(() => {
         this.resetAndFetch();
-        console.log('setup search');
+        // console.log('setup search');
       });
   }
 
@@ -129,7 +144,7 @@ export class DiscoverJobsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           // console.log(response);
-          console.log('inside job fetch 1');
+          // console.log('inside job fetch 1');
 
           this.loading = false;
           this.filterForm.enable(); // Re-enable controls after loading
@@ -179,38 +194,11 @@ export class DiscoverJobsComponent implements OnInit {
   onSearch(event: any) {
     event.preventDefault(); // Prevent the default action (form submission)
     this.getJobs();
-    console.log('inside on search');
+    // console.log('inside on search');
     // Call getJobs() to fetch results based on current filter values
   }
 
   formatDepartment(department: string): string {
     return department.replace(/_/g, ' ');
   }
-
-  // old fetch
-  // fetchJobs(pageNum: number) {
-  //   this.loading = true; // Set loading to true when starting a new request
-  //   this.careersService.getCurrentJobs(this.jobsPerPage, pageNum).subscribe({
-  //     next: (response) => {
-  //       this.loading = false;
-  //       console.log(response);
-
-  //       this.jobs = [...this.jobs, ...response.data];
-  //       this.lastPage = response.last_page;
-  //     },
-  //     error: (err) => {
-  //       this.loading = false;
-  //       console.log(err);
-  //     },
-  //   });
-  // }
-
-  // onLoadMore(): void {
-  //   if (this.currentPage < this.lastPage) {
-  //     this.currentPage += 1;
-  //     this.fetchJobs(this.currentPage); // Fetch jobs for the new page
-  //   } else {
-  //     this.noMoreJobs = true;
-  //   }
-  // }
 }

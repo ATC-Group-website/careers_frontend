@@ -18,13 +18,13 @@ export const adminAuthGuard: CanActivateFn = (
     const token = adminService.getToken(); // Use getToken() to get current token
 
     if (token !== null) {
-      console.log('inside true');
+      // console.log('inside true');
 
-      console.log(token);
+      // console.log(token);
 
       return true;
     }
-    console.log('inside false');
+    // console.log('inside false');
 
     router.navigate(['/admin/login']);
     return false;

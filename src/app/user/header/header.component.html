@@ -1,5 +1,5 @@
-<nav class="bg-gray-100">
-  <div class="mx-auto flex max-w-screen-2xl justify-between p-3">
+<nav class="shadow-lg">
+  <div class="mx-auto flex h-28 max-w-screen-2xl justify-between p-3">
     <a routerLink="/jobs" class="">
       <img
         ngSrc="atc_group_logo1.png"
@@ -13,27 +13,29 @@
       @if (!isLogged) {
         <a
           routerLink="/login"
-          class="rounded-md bg-gray-200 px-5 py-3 text-black no-underline hover:bg-gray-300"
-          >Login</a
+          class="rounded-md bg-gray-200 px-5 py-3 text-black no-underline transition-colors hover:bg-gray-300"
         >
+          Login
+        </a>
         <a
           routerLink="/register"
-          class="rounded-md bg-primary px-5 py-3 text-white no-underline hover:bg-red-700"
-          >Sign up</a
+          class="rounded-md bg-primary px-5 py-3 text-white no-underline transition-colors hover:bg-red-700"
         >
+          Sign up
+        </a>
       }
       @if (isLogged) {
-        <!-- dropdown with name on view and logout as option  -->
-
-        <!-- Dropdown Trigger Button with Username -->
-        <div class="relative inline-block text-left" (click)="toggleDropdown()">
+        <div class="relative inline-block text-left" #dropdownContainer>
           <button
-            class="flex cursor-pointer items-center space-x-2 rounded-lg border-0 p-3 text-gray-700 hover:bg-gray-100 focus:outline-none"
+            class="flex cursor-pointer items-center space-x-2 rounded-lg border-0 p-3 text-gray-700 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            (click)="toggleDropdown()"
+            aria-haspopup="true"
+            [attr.aria-expanded]="dropdownOpen"
           >
             <span class="cursor-pointer text-lg">{{ userName }}</span>
-            <!-- Username Display -->
             <svg
-              class="h-4 w-4"
+              class="h-4 w-4 transition-transform duration-200"
+              [class.rotate-180]="dropdownOpen"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -48,21 +50,24 @@
             </svg>
           </button>
 
-          <!-- Dropdown Menu -->
           @if (dropdownOpen) {
             <div
-              class="absolute right-0 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white text-lg shadow-lg outline-none"
+              class="absolute right-0 mt-2 w-48 origin-top-right transform divide-y divide-gray-100 rounded-md bg-white text-lg shadow-lg outline-none ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-out"
+              role="menu"
+              aria-orientation="vertical"
             >
-              <div class="border-4 border-black py-1">
+              <div class="py-1">
                 <button
-                  class="w-full cursor-pointer border-0 bg-white p-1 px-8 py-2 text-left text-lg text-gray-700 hover:bg-gray-100"
+                  class="w-full cursor-pointer border-0 bg-white px-4 py-2 text-left text-lg text-gray-700 transition-colors hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                   (click)="goToProfile()"
+                  role="menuitem"
                 >
                   Profile
                 </button>
                 <button
-                  class="w-full cursor-pointer border-0 bg-white p-1 px-8 py-2 text-left text-lg text-gray-700 hover:bg-gray-100"
+                  class="w-full cursor-pointer border-0 bg-white px-4 py-2 text-left text-lg text-gray-700 transition-colors hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                   (click)="logout()"
+                  role="menuitem"
                 >
                   Logout
                 </button>

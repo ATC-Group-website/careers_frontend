@@ -1,0 +1,19 @@
+label:after {
+  content: " *";
+  color: red;
+}
+.status-rejected {
+  color: red;
+}
+
+.status-accepted {
+  color: green;
+}
+
+.status-in-process {
+  color: yellow;
+}
+
+.status-applied {
+  color: blue;
+}

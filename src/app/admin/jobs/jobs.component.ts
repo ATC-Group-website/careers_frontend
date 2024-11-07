@@ -10,7 +10,8 @@ import { Router, RouterModule } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { JobsService } from '../services/jobs.service';
-import { LoadingSpinnerComponent } from "../../loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
+import { TopbarComponent } from '../topbar/topbar.component';
 
 @Component({
   selector: 'app-jobs',
@@ -24,8 +25,9 @@ import { LoadingSpinnerComponent } from "../../loading-spinner/loading-spinner.c
     RouterModule,
     TooltipModule,
     InputTextModule,
-    LoadingSpinnerComponent
-],
+    LoadingSpinnerComponent,
+    TopbarComponent,
+  ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './jobs.component.html',
   styleUrl: './jobs.component.css',
@@ -51,14 +53,14 @@ export class JobsComponent implements OnInit {
     this.jobsService.getPaginatedJobs(this.jobsPerPage, pageNum).subscribe({
       next: (response) => {
         this.loading = false;
-        console.log(response);
+        // console.log(response);
 
         this.jobs = response.data;
         this.totalJobs = response.total;
       },
       error: (err) => {
         this.loading = false;
-        console.log(err);
+        // console.log(err);
       },
     });
   }
@@ -82,7 +84,7 @@ export class JobsComponent implements OnInit {
       accept: () => {
         this.jobsService.toggleArchiveJob(jobId).subscribe({
           next: (response) => {
-            console.log(response);
+            // console.log(response);
             this.fetchJobs(this.currentPage);
             this.messageService.add({
               severity: 'info',
@@ -91,7 +93,7 @@ export class JobsComponent implements OnInit {
             });
           },
           error: (err) => {
-            console.log(err);
+            // console.log(err);
             this.messageService.add({
               severity: 'error',
               summary: 'Error',

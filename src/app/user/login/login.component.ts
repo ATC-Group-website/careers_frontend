@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { UserAuthService } from '../services/user-auth.service';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../footer/footer.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,12 @@ export class LoginComponent {
   router = inject(Router);
   authService = inject(UserAuthService);
 
-  constructor() {
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {
+    this.title.setTitle('ATC Careers');
+
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       const userToken = localStorage.getItem('user');
       if (userToken !== null) {
@@ -53,13 +59,14 @@ export class LoginComponent {
 
       this.authService.loginUser(formData.form.value).subscribe({
         next: (response) => {
-          console.log(response);
+          // console.log(response);
 
-          // Get a timestamp 1 minute in the past for testing
-          const oneMinuteAgo = Date.now() + 30000;
-          localStorage.setItem('expiration_timee', oneMinuteAgo.toString());
-
-          this.authService.setToken(response.token);
+          this.authService.loginuser({
+            token: response.token,
+            userName: response.user.name,
+            expirationTime: response.expiration_time,
+            user_id: response.user.id,
+          });
 
           this.router.navigateByUrl('');
           this.isLoading = false;

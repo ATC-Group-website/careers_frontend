@@ -17,6 +17,7 @@ import { RippleModule } from 'primeng/ripple';
 import { JobsService } from '../services/jobs.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
+import { TopbarComponent } from "../topbar/topbar.component";
 
 @Component({
   selector: 'app-job-details',
@@ -31,7 +32,8 @@ import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.c
     FormsModule,
     RippleModule,
     LoadingSpinnerComponent,
-  ],
+    TopbarComponent
+],
   providers: [MessageService],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.css',

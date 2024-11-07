@@ -12,6 +12,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { JobsService } from '../services/jobs.service';
+import { TopbarComponent } from "../topbar/topbar.component";
 
 @Component({
   selector: 'app-new-job',
@@ -23,7 +24,8 @@ import { JobsService } from '../services/jobs.service';
     EditorModule,
     ToastModule,
     ButtonModule,
-  ],
+    TopbarComponent
+],
   providers: [MessageService],
   templateUrl: './new-job.component.html',
   styleUrl: './new-job.component.css',
@@ -58,11 +60,11 @@ export class NewJobComponent implements OnInit {
     if (this.newJobForm.valid) {
       this.isLoading = true;
       const jobData = this.newJobForm.value;
-      console.log('Job Posted:', jobData);
+      // console.log('Job Posted:', jobData);
 
       this.jobsService.createJob(jobData).subscribe({
         next: (res) => {
-          console.log(res);
+          // console.log(res);
           this.isLoading = false;
           this.messageService.add({
             severity: 'success',

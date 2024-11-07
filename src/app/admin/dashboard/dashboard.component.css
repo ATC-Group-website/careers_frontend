@@ -1,0 +1,9 @@
+.shrink .content {
+  margin-left: 80px; /* Adjust as per the sidebar's collapsed width */
+  transition: margin 0.3s ease;
+}
+
+.content {
+  margin-left: 250px; /* Adjust as per the sidebar's full width */
+  transition: margin 0.3s ease;
+}

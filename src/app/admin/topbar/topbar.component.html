@@ -1,0 +1,117 @@
+<nav
+  class="fixed left-0 top-0 z-30 w-full border-b border-gray-200 bg-white shadow-lg"
+>
+  <div class="px-3 py-3 lg:px-5">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center justify-start">
+        <p-button
+          aria-controls="default-sidebar"
+          (click)="toggleSidebar($event)"
+          [style]="{
+            margin: '0px',
+          }"
+          type="button"
+          class="inline-flex items-center rounded-lg text-sm text-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 lg:hidden"
+        >
+          <span class="sr-only">Open sidebar</span>
+          <svg
+            class="h-6 w-6"
+            aria-hidden="true"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              fill-rule="evenodd"
+              d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+            ></path>
+          </svg>
+        </p-button>
+
+        <a class="ml-2 flex md:mr-24">
+          <span
+            class="self-center whitespace-nowrap text-xl font-semibold sm:text-2xl"
+            >ATC Group Careers</span
+          >
+        </a>
+      </div>
+      <div class="flex items-center">
+        <p-button
+          (onClick)="logout()"
+          severity="danger"
+          label="Logout"
+          [style]="{ backGroundColor: 'red' }"
+        >
+        </p-button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<aside
+  id="default-sidebar"
+  class="fixed left-0 top-0 z-40 mt-[71px] h-screen w-56 -translate-x-full rounded-lg transition-transform lg:mt-[70px] lg:translate-x-0"
+  [ngClass]="{
+    '-translate-x-full': !sidebarVisible,
+    'translate-x-0': sidebarVisible,
+  }"
+  (click)="$event.stopPropagation()"
+  aria-label="Sidebar"
+>
+  <div class="h-screen bg-gray-50 py-4">
+    <ul
+      class="flex h-full list-none flex-col justify-start space-y-2 p-0 font-medium"
+    >
+      <li>
+        <a
+          routerLink="/admin/dashboard"
+          routerLinkActive="font-bold text-primary bg-gray-100"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="group flex items-center rounded-lg p-2.5 text-gray-900 no-underline hover:bg-gray-100"
+        >
+          <span class="ms-3 flex-1 whitespace-nowrap">Dashboard</span>
+        </a>
+      </li>
+
+      <li>
+        <a
+          routerLink="/admin/dashboard/jobs"
+          routerLinkActive="font-bold text-primary bg-gray-100"
+          class="group flex items-center rounded-lg p-2.5 text-gray-900 no-underline hover:bg-gray-100"
+        >
+          <span class="ms-3 flex-1 whitespace-nowrap">Jobs</span>
+        </a>
+      </li>
+
+      <li>
+        <a
+          routerLink="/admin/dashboard/archived-jobs"
+          routerLinkActive="font-bold text-primary bg-gray-100"
+          class="group flex items-center rounded-lg p-2.5 text-gray-900 no-underline hover:bg-gray-100"
+        >
+          <span class="ms-3 flex-1 whitespace-nowrap">Archived jobs</span>
+        </a>
+      </li>
+
+      <li>
+        <a
+          routerLink="/admin/dashboard/new-job"
+          routerLinkActive="font-bold text-primary bg-gray-100"
+          class="group flex items-center rounded-lg p-2.5 text-gray-900 no-underline hover:bg-gray-100"
+        >
+          <span class="ms-3 flex-1 whitespace-nowrap">New job</span>
+        </a>
+      </li>
+      <!-- <li>
+        <a
+          routerLink="/admin/dashboard/users"
+          routerLinkActive="font-bold text-primary bg-gray-100"
+          class="group flex items-center rounded-lg p-2.5 text-gray-900 no-underline hover:bg-gray-100"
+        >
+          <span class="ms-3 flex-1 whitespace-nowrap">Users</span>
+        </a>
+      </li> -->
+    </ul>
+  </div>
+</aside>

@@ -1,13 +1,21 @@
 <app-header></app-header>
-<main>
-  <section class="mx-auto max-w-screen-xl p-10 text-center">
-    <div class="my-20">
-      <h1 class="mb-20 text-5xl font-bold">Careers at ATC Group</h1>
-      <a
-        (click)="scrollToSection()"
-        class="cursor-pointer rounded-md bg-[#e8453d] px-6 py-3 text-white no-underline"
-        >View jobs</a
-      >
+<main class="bg-[#fbfbfb]">
+  <section
+    class="bg-cover bg-center text-center"
+    style="background-image: url(&quot;career_cover.jpeg&quot;)"
+  >
+    <!-- style="background-image: url(&quot;home-bg.jpeg&quot;)" -->
+    <div class="mx-auto max-w-screen-xl px-10 py-24 text-center">
+      <div class="my-20">
+        <h1 class="mb-20 text-5xl font-bold text-white">
+          Careers at ATC Group
+        </h1>
+        <a
+          (click)="scrollToSection()"
+          class="cursor-pointer rounded-md bg-[#e8453d] px-6 py-3 text-white no-underline"
+          >View jobs</a
+        >
+      </div>
     </div>
   </section>
 
@@ -89,10 +97,10 @@
               <p class="m-0 font-bold md:w-1/5">
                 {{ job.location | titlecase }}
               </p>
-              <p class="text-grayTitle m-0 md:w-1/5">
+              <p class="m-0 text-grayTitle md:w-1/5">
                 {{ formatDepartment(job.department) | titlecase }}
               </p>
-              <p class="text-grayTitle m-0 md:w-1/5">{{ job.years }} years</p>
+              <p class="m-0 text-grayTitle md:w-1/5">{{ job.years }} years</p>
             </div>
             <p class="text-grayTitle">Posted: {{ job.updated_at | timeAgo }}</p>
           </div>
@@ -100,7 +108,7 @@
         }
       </div>
       @if (noMoreJobs) {
-        <p class="text-grayTitle m-0 mt-10 pb-5 text-center text-lg">
+        <p class="m-0 mt-10 pb-5 text-center text-lg text-grayTitle">
           No more jobs available at this time.
         </p>
       }
@@ -120,4 +128,5 @@
     }
   </section>
 </main>
+<app-email-resume></app-email-resume>
 <app-footer></app-footer>

@@ -5,9 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Job } from '../../admin/interfaces/admin.interface';
 import { CareersService } from '../services/careers.service';
 import { ButtonModule } from 'primeng/button';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
 import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
 import { TitleCasePipe } from '@angular/common';
+import { EmailResumeComponent } from '../email-resume/email-resume.component';
 
 @Component({
   selector: 'app-job-details',
@@ -18,6 +19,7 @@ import { TitleCasePipe } from '@angular/common';
     ButtonModule,
     LoadingSpinnerComponent,
     TitleCasePipe,
+    EmailResumeComponent,
   ],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.css',
@@ -25,15 +27,21 @@ import { TitleCasePipe } from '@angular/common';
 export class JobDetailsComponent implements OnInit {
   id!: number;
   job!: Job;
-  careersService = inject(CareersService);
+  errorMessage: string | null = null;
+  isLoading: boolean = true;
 
+  careersService = inject(CareersService);
   route = inject(ActivatedRoute);
   router = inject(Router);
   sanitizer = inject(DomSanitizer);
 
-  constructor() {}
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {}
 
   ngOnInit(): void {
+    this.title.setTitle('ATC Careers');
     this.fetchJobDetails();
   }
 
@@ -41,14 +49,26 @@ export class JobDetailsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.id = parseInt(params['id'], 10);
       if (isNaN(this.id)) {
+        this.errorMessage = 'Invalid job ID provided.';
+        this.isLoading = false;
         return;
       }
       this.careersService.fetchSingleJob(this.id).subscribe({
         next: (res) => {
           this.job = res.job;
-          console.log(res.job);
+          // console.log(res.job);
+          this.isLoading = false;
         },
-        error: (error) => {},
+        error: (error) => {
+          // console.log(error);
+
+          error.error.error === 'Job not found'
+            ? (this.errorMessage = error.error.error + '.')
+            : (this.errorMessage =
+                'Unable to fetch job details. Please try again later.');
+
+          this.isLoading = false;
+        },
       });
     });
   }

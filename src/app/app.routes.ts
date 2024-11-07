@@ -87,6 +87,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'dashboard/job/applicants/:id',
+        canActivate: [adminAuthGuard],
+        loadComponent: () =>
+          import('./admin/job-applicants/job-applicants.component').then(
+            (mod) => mod.JobApplicantsComponent,
+          ),
+      },
+      {
         path: 'dashboard/new-job',
         canActivate: [adminAuthGuard],
 
@@ -97,5 +105,6 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '**', component: NotFoundComponent, title: '404 Not Found' },
+  // { path: '**', component: NotFoundComponent, title: '404 Not Found' },
+  { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];

@@ -1,0 +1,103 @@
+<div class="card sidebar flex justify-center">
+  <p-sidebar #sidebarRef [(visible)]="sidebarVisible">
+    <ng-template pTemplate="headless">
+      <div class="flex h-full flex-col">
+        <div class="flex flex-shrink-0 items-center justify-between px-4 pt-3">
+          <span class="inline-flex items-center gap-2">
+            <svg
+              width="33"
+              height="35"
+              viewBox="0 0 33 35"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="mx-auto block"
+            >
+              <!-- SVG paths here -->
+            </svg>
+            <span class="text-2xl font-semibold text-primary">Your Logo</span>
+          </span>
+          <span>
+            <p-button
+              type="button"
+              icon="pi pi-times"
+              rounded="true"
+              outlined="true"
+              styleClass="h-8 w-8"
+              (onClick)="closeSidebar()"
+            ></p-button>
+          </span>
+        </div>
+        <div class="overflow-y-auto">
+          <ul class="m-0 list-none p-3">
+            <li>
+              <div
+                pRipple
+                pStyleClass="@next"
+                enterClass="hidden"
+                enterActiveClass="slidedown"
+                leaveToClass="hidden"
+                leaveActiveClass="slideup"
+                class="flex cursor-pointer items-center justify-between p-3 text-gray-600"
+              >
+                <span class="font-medium">FAVORITES</span>
+                <i class="pi pi-chevron-down"></i>
+              </div>
+              <ul class="m-0 list-none overflow-hidden p-0">
+                <li>
+                  <a
+                    pRipple
+                    class="flex cursor-pointer items-center rounded p-3 text-gray-700 transition duration-150 hover:bg-gray-100"
+                  >
+                    <i class="pi pi-home mr-2"></i>
+                    <span class="font-medium">Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    pRipple
+                    class="flex cursor-pointer items-center rounded p-3 text-gray-700 transition duration-150 hover:bg-gray-100"
+                  >
+                    <i class="pi pi-bookmark mr-2"></i>
+                    <span class="font-medium">Bookmarks</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    pRipple
+                    pStyleClass="@next"
+                    enterClass="hidden"
+                    enterActiveClass="slidedown"
+                    leaveToClass="hidden"
+                    leaveActiveClass="slideup"
+                    class="flex cursor-pointer items-center rounded p-3 text-gray-700 transition duration-150 hover:bg-gray-100"
+                  >
+                    <i class="pi pi-chart-line mr-2"></i>
+                    <span class="font-medium">Reports</span>
+                    <i class="pi pi-chevron-down ml-auto"></i>
+                  </a>
+                  <ul
+                    class="duration-400 m-0 hidden list-none overflow-hidden py-0 pl-3 pr-0 transition-all ease-in-out"
+                  >
+                    <li>
+                      <a
+                        pRipple
+                        pStyleClass="@next"
+                        enterClass="hidden"
+                        enterActiveClass="slidedown"
+                        leaveToClass="hidden"
+                        leaveActiveClass="slideup"
+                        class="flex cursor-pointer items-center rounded p-3 text-gray-700 transition duration-150 hover:bg-gray-100"
+                      >
+                        <i class="pi pi-chart-line mr-2"></i>
+                        <span class="font-medium">Revenue</span>
+                        <i class="pi pi-chevron-down ml-auto"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div></div></ng-template
+  ></p-sidebar>
+</div>

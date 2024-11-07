@@ -1,44 +1,52 @@
 <app-header></app-header>
-<main class="mx-auto min-h-screen max-w-screen-md">
-  @if (job) {
-    <div class="mb-12">
-      <div class="p-3 text-center">
-        <h1 class="text-center">{{ job.title }}</h1>
-        <p class="text-gray-700">
-          <strong>Location:</strong> {{ job.location }}
-        </p>
-        <p class="text-gray-700">
-          <strong>Department:</strong>
-          {{ formatDepartment(job.department) | titlecase }}
-        </p>
+<main class="mb-4 bg-[#fbfbfb] pb-5">
+  <section class="mx-auto min-h-screen max-w-screen-md">
+    @if (isLoading) {
+      <div class="flex h-screen w-full items-center justify-center">
+        <app-loading-spinner></app-loading-spinner>
       </div>
-      <!-- <p><strong>Years of Experience:</strong> {{ job.years }}</p> -->
-      <h2 class="text-center text-3xl">About the job</h2>
-      <div
-        class="max-w-full overflow-hidden whitespace-pre-wrap break-words p-4 text-sm leading-relaxed text-gray-700 md:text-base"
-        [innerHTML]="sanitizeHtml(job.description)"
-      ></div>
+    }
+    @if (job && !isLoading) {
+      <div class="">
+        <div class="p-3 text-center">
+          <h1 class="text-center">{{ job.title }}</h1>
+          <p class="text-gray-700">
+            <strong>Location:</strong> {{ job.location }}
+          </p>
+          <p class="text-gray-700">
+            <strong>Department:</strong>
+            {{ formatDepartment(job.department) | titlecase }}
+          </p>
+        </div>
+        <!-- <p><strong>Years of Experience:</strong> {{ job.years }}</p> -->
+        <h2 class="text-center text-3xl">About the job</h2>
+        <div
+          class="max-w-full overflow-hidden whitespace-pre-wrap break-words p-4 text-sm leading-relaxed text-gray-700 md:text-base"
+          [innerHTML]="sanitizeHtml(job.description)"
+        ></div>
 
-      <!-- <button pButton label="Apply Now" class="mt-4" (click)="applyForJob()">
-        Apply now
-      </button> -->
-      <div class="p-4">
-        <p-button
-          (onClick)="applyForJob()"
-          label="Apply now"
-          [style]="{
-            width: '100%',
-          }"
-          type="button"
-          severity="danger"
-        />
+        <div class="p-4">
+          <p-button
+            (onClick)="applyForJob()"
+            label="Apply now"
+            [style]="{
+              width: '100%',
+            }"
+            type="button"
+            severity="danger"
+          />
+        </div>
       </div>
-    </div>
-  } @else {
-    <div class="flex h-screen w-full items-center justify-center">
-      <app-loading-spinner></app-loading-spinner>
-    </div>
-  }
+    }
+    @if (errorMessage && !isLoading) {
+      <div
+        class="flex h-[60vh] w-full items-center justify-center text-xl text-red-500"
+      >
+        {{ errorMessage }}
+      </div>
+    }
+  </section>
 </main>
+<app-email-resume></app-email-resume>
 
 <app-footer></app-footer>

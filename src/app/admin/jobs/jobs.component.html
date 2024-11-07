@@ -1,5 +1,6 @@
+<app-topbar></app-topbar>
 @if (jobs) {
-  <section class="mx-auto mt-20 max-w-screen-xl p-5">
+  <section class="mx-auto mr-5 mt-20 lg:ml-64">
     <div class="card">
       <p-table
         [value]="jobs"
@@ -39,7 +40,12 @@
             <td>{{ formatDepartment(job.department) | titlecase }}</td>
             <td>{{ job.location.split(",")[0] }}</td>
             <td>
-              <a class="cursor-pointer hover:underline"> View applicants </a>
+              <a
+                class="cursor-pointer hover:underline"
+                [routerLink]="['/admin/dashboard/job/applicants', job.id]"
+              >
+                View applicants
+              </a>
             </td>
             <td>
               <p-button

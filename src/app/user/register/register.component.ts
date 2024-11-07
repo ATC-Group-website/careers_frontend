@@ -22,6 +22,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { registerUserForm } from '../../admin/interfaces/user-layout';
 import { FooterComponent } from '../footer/footer.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-register',
@@ -62,7 +63,10 @@ export class RegisterComponent implements OnInit {
   router = inject(Router);
   authService = inject(UserAuthService);
 
-  constructor() {
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       const userToken = localStorage.getItem('user');
       if (userToken !== null) {
@@ -72,6 +76,8 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.title.setTitle('ATC Careers');
+
     this.registerForm = new FormGroup(
       {
         name: new FormControl('', Validators.required),
@@ -94,8 +100,8 @@ export class RegisterComponent implements OnInit {
 
   onRegister() {
     if (this.registerForm.invalid) {
-      console.log('error inside register');
-      console.log(this.registerForm);
+      // console.log('error inside register');
+      // console.log(this.registerForm);
 
       Object.keys(this.registerForm.controls).forEach((field) => {
         const control = this.registerForm.controls[field];
@@ -114,16 +120,18 @@ export class RegisterComponent implements OnInit {
           address: this.registerForm.controls['address'].value,
           cv: this.selectedBase64File,
         };
-        console.log(formData);
+        // console.log(formData);
 
         this.authService.registerUser(formData).subscribe({
           next: (response) => {
-            console.log(response);
+            // console.log(response);
 
             this.router.navigateByUrl('/login');
             this.isLoading = false;
           },
           error: (err) => {
+            // console.log(err);
+
             this.errorMessage = err.error.error || ' Invalid credentials ';
             this.isLoading = false;
           },
@@ -145,12 +153,12 @@ export class RegisterComponent implements OnInit {
           const base64 = e.target.result;
           this.selectedBase64File = base64; // Store Base64 string for upload
           // You can now use this.base64 to upload to the server
-          console.log('Base64 PDF:', base64); // Test output
+          // console.log('Base64 PDF:', base64); // Test output
         };
         reader.readAsDataURL(file); // Converts the file to Base64
       }
     } else {
-      console.warn('Please select a PDF file.');
+      // console.warn('Please select a PDF file.');
     }
   }
 
@@ -173,29 +181,4 @@ export class RegisterComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     input.value = input.value.replace(/[^0-9]/g, ''); // Only allows numbers
   }
-
-  // restrictInput(event: KeyboardEvent): void {
-  //   const allowedKeys = [
-  //     'Backspace',
-  //     'ArrowLeft',
-  //     'ArrowRight',
-  //     'Tab',
-  //     'Delete',
-  //   ];
-
-  //   // Allow numeric characters, allowed keys, Ctrl + A (Select All), and Ctrl + Z (Undo) and Ctrl + C (Copy) and Ctrl + v (Paste)
-  //   if (
-  //     !/^[0-9]$/.test(event.key) && // Allow numbers
-  //     !allowedKeys.includes(event.key) && // Allow navigation and deletion keys
-  //     !(
-  //       event.ctrlKey &&
-  //       (event.key === 'a' ||
-  //         event.key === 'z' ||
-  //         event.key === 'c' ||
-  //         event.key === 'v')
-  //     ) // Allow Ctrl + A and Ctrl + Z and Ctrl + C and Ctrl + V
-  //   ) {
-  //     event.preventDefault(); // Prevents entry of non-numeric characters, including 'e'
-  //   }
-  // }
 }

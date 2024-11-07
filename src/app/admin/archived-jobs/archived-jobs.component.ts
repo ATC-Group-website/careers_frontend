@@ -10,6 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { JobsService } from '../services/jobs.service';
+import { TopbarComponent } from '../topbar/topbar.component';
 
 @Component({
   selector: 'app-archived-jobs',
@@ -23,6 +24,7 @@ import { JobsService } from '../services/jobs.service';
     RouterModule,
     TooltipModule,
     InputTextModule,
+    TopbarComponent,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './archived-jobs.component.html',
@@ -51,14 +53,14 @@ export class ArchivedJobsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.loading = false;
-          console.log(response);
+          // console.log(response);
 
           this.archivedJobs = response.data;
           this.totalJobs = response.total;
         },
         error: (err) => {
           this.loading = false;
-          console.log(err);
+          // console.log(err);
         },
       });
   }
@@ -82,7 +84,7 @@ export class ArchivedJobsComponent implements OnInit {
       accept: () => {
         this.jobsService.toggleArchiveJob(jobId).subscribe({
           next: (response) => {
-            console.log(response);
+            // console.log(response);
             this.fetchArchivedJobs(this.currentPage);
             this.messageService.add({
               severity: 'info',
@@ -91,7 +93,7 @@ export class ArchivedJobsComponent implements OnInit {
             });
           },
           error: (err) => {
-            console.log(err);
+            // console.log(err);
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
@@ -126,7 +128,7 @@ export class ArchivedJobsComponent implements OnInit {
         // Call the deleteJob method and subscribe to handle the response
         this.jobsService.deleteJob(jobId).subscribe({
           next: (response) => {
-            console.log(response);
+            // console.log(response);
             this.fetchArchivedJobs(this.currentPage);
             this.messageService.add({
               severity: 'info',
@@ -135,7 +137,7 @@ export class ArchivedJobsComponent implements OnInit {
             });
           },
           error: (err) => {
-            console.log(err);
+            // console.log(err);
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
@@ -156,5 +158,9 @@ export class ArchivedJobsComponent implements OnInit {
 
   navigateToDetails(id: number) {
     this.router.navigateByUrl(`/admin/dashboard/jobs/${id}`);
+  }
+
+  formatDepartment(department: string): string {
+    return department.replace(/_/g, ' ');
   }
 }

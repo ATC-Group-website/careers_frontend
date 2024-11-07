@@ -11,6 +11,7 @@ import { UserAuthService } from '../services/user-auth.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -27,11 +28,11 @@ import { MenuModule } from 'primeng/menu';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
+  isLogged: boolean = false;
+  userName: string | null = null;
   dropdownOpen = false;
 
-  isLogged!: boolean;
-  userName: string | null = '';
-
+  private authSubscription?: Subscription;
   authService = inject(UserAuthService);
 
   constructor(
@@ -48,40 +49,33 @@ export class HeaderComponent implements OnInit {
     ];
   }
   ngOnInit(): void {
-    this.authService.userToken.subscribe((token) => {
-      this.isLogged = !!token;
+    this.authService.authState$.subscribe((state) => {
+      this.isLogged = state.isLogged;
+      this.userName = state.userName;
     });
+  }
 
-    console.log(this.isLogged);
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.dropdownOpen = false;
+    }
+  }
 
-    this.authService.userName$.subscribe((name) => {
-      this.userName = name;
-    });
-
-    // if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-    //   this.isLogged = localStorage.getItem('user') ? true : false;
-    //   this.userName = 'User';
-    // }
-    // this.authService.userName$.subscribe((name) => {
-    //   this.userName = name;
-    // });
+  @HostListener('document:keydown.escape')
+  onEscapePress() {
+    this.dropdownOpen = false;
   }
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
-
   goToProfile() {
-    this.router.navigate(['/profile']);
     this.dropdownOpen = false;
+    this.router.navigate(['/profile']);
   }
 
   dropdownItems: any[] = [];
-
-  goToSettings() {
-    // Navigate to settings page
-    this.router.navigate(['/settings']);
-  }
 
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {
@@ -91,22 +85,18 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    console.log('1');
-
+    this.dropdownOpen = false;
     this.authService.logout().subscribe({
       next: (res) => {
-        console.log('2');
-
-        console.log('Logging out...');
-        localStorage.removeItem('user');
-        this.router.navigate(['/login']); // Redirect to login page
-      },
-      error: (error) => {
-        console.log('3');
-
-        console.log('Logout error:', error);
+        // console.log(res);
+        this.authService.logoutUser();
       },
     });
-    this.dropdownOpen = false;
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 }

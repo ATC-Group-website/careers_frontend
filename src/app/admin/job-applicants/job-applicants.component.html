@@ -1,1 +1,157 @@
-<p>job-applicants works!</p>
+<app-topbar></app-topbar>
+
+@if (applicants) {
+  <section class="mx-auto mr-5 mt-20 lg:ml-64">
+    <div class="card">
+      <p-table
+        [value]="applicants"
+        [paginator]="true"
+        [rows]="10"
+        [loading]="loading"
+        [first]="first"
+        [totalRecords]="totalApplicants"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 20]"
+        [tableStyle]="{ 'min-width': '70rem' }"
+        (onPage)="pageChange($event)"
+        [globalFilterFields]="[
+          'name',
+          'country.name',
+          'representative.name',
+          'status',
+        ]"
+      >
+        <ng-template pTemplate="caption">
+          <div>
+            <h2 class="text-center">Applicants for {{ jobTitle }}</h2>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <!-- <th style="width: 2rem">#</th> -->
+            <th style="width: 10%">Name</th>
+            <th style="width: 10%">Email</th>
+            <th style="width: 10%">Phone Number</th>
+            <th style="width: 10%">University</th>
+            <th style="width: 10%">Major</th>
+            <th style="width: 10%">Graduation year</th>
+            <th style="width: 10%">Expected salary</th>
+            <th style="width: 12%">CV</th>
+            <th style="width: 10%">Eligible to work</th>
+            <th style="width: 10%">Status</th>
+            <th style="width: 10%">Years of experience</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-applicant>
+          <tr>
+            <td>{{ applicant.name }}</td>
+            <td>
+              {{ applicant.email }}
+            </td>
+            <td>
+              {{ applicant.phone_number }}
+            </td>
+            <td>
+              {{ applicant.university }}
+            </td>
+            <td>{{ applicant.major }}</td>
+            <td>
+              {{ applicant.grad_year }}
+            </td>
+            <td>
+              {{ applicant.expected_salary }}
+              <span class="ms-1">{{ applicant.currency }}</span>
+            </td>
+            <td>
+              <a
+                [href]="applicant.cv.path"
+                target="_blank"
+                class="text-blue-500 no-underline"
+                >View CV <i class="pi pi-arrow-up-right text-sm"></i
+              ></a>
+            </td>
+            <td>
+              {{ applicant.location_eligibility ? "Yes" : "No" }}
+            </td>
+            <td class="flex items-center gap-2">
+              <span
+                [ngClass]="{
+                  'bg-green-200 text-green-800':
+                    applicant.status === 'accepted',
+                  'bg-yellow-200 text-yellow-800':
+                    applicant.status === 'in_process',
+                  'bg-red-200 text-red-800': applicant.status === 'rejected',
+                  'bg-gray-200 text-gray-800': applicant.status === 'applied',
+                }"
+                class="rounded-md px-2 py-1"
+              >
+                {{ applicant.status }}
+              </span>
+              <p-button
+                (click)="
+                  openStatusUpdateDialog(
+                    jobId,
+                    applicant.email,
+                    applicant.status
+                  )
+                "
+                icon="pi pi-pen-to-square text-2xl text-blue-500 hover:text-blue-600"
+                link="true"
+                class="p-0"
+                pTooltip="update status"
+                tooltipPosition="bottom"
+              />
+            </td>
+            <td>{{ applicant.years_of_experience }} years</td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-toast />
+      <p-confirmDialog />
+      <p-dialog
+        [(visible)]="showStatusUpdateDialog"
+        [modal]="true"
+        [closable]="true"
+        [style]="{ width: '400px', height: '400px' }"
+        [baseZIndex]="10000"
+        [draggable]="false"
+        [resizable]="false"
+      >
+        <ng-template pTemplate="header">
+          <h3>Update Job Status</h3>
+        </ng-template>
+
+        <form
+          [formGroup]="updateStatusForm"
+          (ngSubmit)="updateStatus()"
+          class="flex h-full flex-col"
+        >
+          <div class="field m-3 flex flex-1 justify-between">
+            <label for="status">Status</label>
+            <p-dropdown
+              id="status"
+              [options]="statusOptions"
+              formControlName="status"
+            ></p-dropdown>
+          </div>
+          <div class="">
+            <button
+              type="submit"
+              pButton
+              label="Update Status"
+              class="p-button-primary"
+              [disabled]="updateStatusForm.invalid"
+            ></button>
+          </div>
+        </form>
+      </p-dialog>
+    </div>
+  </section>
+} @else {
+  <div class="flex h-screen w-screen items-center justify-center">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+}

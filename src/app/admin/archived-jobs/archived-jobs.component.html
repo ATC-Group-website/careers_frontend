@@ -1,76 +1,82 @@
-<section class="mx-auto mt-20 max-w-screen-xl p-5">
-  <div class="card">
-    <p-table
-      [value]="archivedJobs"
-      [lazy]="true"
-      [paginator]="true"
-      [rows]="jobsPerPage"
-      [loading]="loading"
-      [first]="0"
-      [totalRecords]="totalJobs"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      (onLazyLoad)="onPageChange($event)"
-    >
-      <ng-template pTemplate="caption">
-        <div>
-          <h2 class="text-center">Archived Jobs</h2>
-        </div>
-      </ng-template>
+<app-topbar></app-topbar>
 
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 2rem">#</th>
-          <th style="width: 20%">Title</th>
-          <th style="width: 15%">Years of experience</th>
-          <th style="width: 20%">Department</th>
-          <th style="width: 10%">Location</th>
-          <th style="width: 20%">Applicants</th>
-          <th class="width: 15%">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-archivedJob>
-        <tr>
-          <td>{{ archivedJob.id }}</td>
-          <td>{{ archivedJob.title }}</td>
-          <td>{{ archivedJob.years }}</td>
-          <td>{{ archivedJob.department }}</td>
-          <td>{{ archivedJob.location }}</td>
-          <td>
-            <a class="cursor-pointer hover:underline"> View applicants </a>
-          </td>
-          <td class="flex items-center justify-around">
-            <p-button
-              (onClick)="navigateToDetails(archivedJob.id)"
-              icon="pi pi-pen-to-square text-2xl text-blue-500 hover:text-blue-600"
-              link="true"
-              class="p-0"
-              pTooltip="Edit"
-              tooltipPosition="bottom"
-            />
-            <p-button
-              (onClick)="confirmArchive($event, archivedJob.id)"
-              severity="danger"
-              icon="fa-solid fa-folder-plus text-2xl text-yellow-500 hover:text-yellow-700"
-              link="true"
-              class="p-0"
-              pTooltip="Publish"
-              tooltipPosition="bottom"
-            />
-            <p-button
-              (onClick)="confirmDelete($event, archivedJob.id)"
-              severity="danger"
-              icon="pi pi-trash text-2xl text-red-500 hover:text-red-700"
-              link="true"
-              class="p-0"
-              pTooltip="Delete"
-              tooltipPosition="bottom"
-            />
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <p-toast />
-    <p-confirmDialog />
-  </div>
-</section>
+@if (archivedJobs) {
+  <section class="mx-auto mt-20 p-5 lg:ml-64">
+    <div class="card">
+      <p-table
+        [value]="archivedJobs"
+        [lazy]="true"
+        [paginator]="true"
+        [rows]="jobsPerPage"
+        [loading]="loading"
+        [first]="0"
+        [totalRecords]="totalJobs"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        (onLazyLoad)="onPageChange($event)"
+      >
+        <ng-template pTemplate="caption">
+          <div>
+            <h2 class="text-center">Archived Jobs</h2>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 2rem">#</th>
+            <th style="width: 20%">Title</th>
+            <th style="width: 15%">Years of experience</th>
+            <th style="width: 20%">Department</th>
+            <th style="width: 10%">Location</th>
+            <th style="width: 20%">Applicants</th>
+            <th class="width: 20%">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-archivedJob>
+          <tr>
+            <td>{{ archivedJob.id }}</td>
+            <td>{{ archivedJob.title }}</td>
+            <td>{{ archivedJob.years }} years</td>
+            <td>
+              {{ formatDepartment(archivedJob.department) | titlecase }}
+            </td>
+            <td>{{ archivedJob.location.split(",")[0] }}</td>
+            <td>
+              <a class="cursor-pointer hover:underline"> View applicants </a>
+            </td>
+            <td class="flex items-center justify-around">
+              <p-button
+                (onClick)="navigateToDetails(archivedJob.id)"
+                icon="pi pi-pen-to-square text-2xl text-blue-500 hover:text-blue-600"
+                link="true"
+                class="p-0"
+                pTooltip="Edit"
+                tooltipPosition="bottom"
+              />
+              <p-button
+                (onClick)="confirmArchive($event, archivedJob.id)"
+                severity="danger"
+                icon="fa-solid fa-folder-plus text-2xl text-yellow-500 hover:text-yellow-700"
+                link="true"
+                class="p-0"
+                pTooltip="Publish"
+                tooltipPosition="bottom"
+              />
+              <p-button
+                (onClick)="confirmDelete($event, archivedJob.id)"
+                severity="danger"
+                icon="pi pi-trash text-2xl text-red-500 hover:text-red-700"
+                link="true"
+                class="p-0"
+                pTooltip="Delete"
+                tooltipPosition="bottom"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-toast />
+      <p-confirmDialog />
+    </div>
+  </section>
+}
