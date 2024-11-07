@@ -42,7 +42,15 @@
             </td>
             <td>{{ archivedJob.location.split(",")[0] }}</td>
             <td>
-              <a class="cursor-pointer hover:underline"> View applicants </a>
+              <a
+                class="cursor-pointer hover:underline"
+                [routerLink]="[
+                  '/admin/dashboard/job/applicants',
+                  archivedJob.id,
+                ]"
+              >
+                View applicants
+              </a>
             </td>
             <td class="flex items-center justify-around">
               <p-button
