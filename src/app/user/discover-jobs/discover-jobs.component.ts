@@ -89,7 +89,7 @@ export class DiscoverJobsComponent implements OnInit {
   setupSearch() {
     this.filterForm
       .get('search')
-      ?.valueChanges.pipe(debounceTime(0), distinctUntilChanged())
+      ?.valueChanges.pipe(debounceTime(50), distinctUntilChanged())
       .subscribe(() => {
         this.resetAndFetch();
         // console.log('setup search');
