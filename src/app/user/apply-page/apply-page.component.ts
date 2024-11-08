@@ -26,6 +26,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 import { PDFParser } from './pdf-parser';
 import { Job } from '../../admin/interfaces/admin.interface';
 import { Meta, Title } from '@angular/platform-browser';
+import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
 
 @Component({
   selector: 'app-apply-page',
@@ -44,6 +45,7 @@ import { Meta, Title } from '@angular/platform-browser';
     InputGroupAddonModule,
     ToastModule,
     DialogModule,
+    CapitalizeFirstPipe
   ],
   providers: [MessageService],
   templateUrl: './apply-page.component.html',

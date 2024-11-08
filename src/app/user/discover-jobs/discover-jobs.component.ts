@@ -19,6 +19,7 @@ import { combineLatest } from 'rxjs';
 import { EmailResumeComponent } from '../email-resume/email-resume.component';
 import { Meta, Title } from '@angular/platform-browser';
 import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
+import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
 
 @Component({
   selector: 'app-discover-jobs',
@@ -38,6 +39,7 @@ import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.c
     ReactiveFormsModule,
     EmailResumeComponent,
     LoadingSpinnerComponent,
+    CapitalizeFirstPipe,
   ],
   templateUrl: './discover-jobs.component.html',
   styleUrl: './discover-jobs.component.css',

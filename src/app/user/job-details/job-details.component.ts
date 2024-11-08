@@ -9,6 +9,7 @@ import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
 import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
 import { TitleCasePipe } from '@angular/common';
 import { EmailResumeComponent } from '../email-resume/email-resume.component';
+import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
 
 @Component({
   selector: 'app-job-details',
@@ -20,6 +21,7 @@ import { EmailResumeComponent } from '../email-resume/email-resume.component';
     LoadingSpinnerComponent,
     TitleCasePipe,
     EmailResumeComponent,
+    CapitalizeFirstPipe,
   ],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.css',

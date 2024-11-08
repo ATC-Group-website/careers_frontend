@@ -44,22 +44,22 @@
             [options]="locationsOptions"
             formControlName="location"
             scrollHeight="200px"
-            placeholder="Location"
+            placeholder="ALl Locations"
           />
 
           <!-- Department Filter -->
           <p-dropdown
             [options]="departmentsOptions"
             formControlName="departments"
-            placeholder="Department"
             scrollHeight="200px"
+            placeholder="All Departments"
           />
 
           <p-dropdown
             [options]="yearsFilterOptions"
             formControlName="years"
-            placeholder="Years of experience"
             scrollHeight="200px"
+            placeholder="All Experience Levels"
           />
 
           <div class="flex flex-1 justify-end">
@@ -92,7 +92,7 @@
           >
             <div class="flex flex-col gap-5 md:flex-row">
               <h3 class="m-0 text-2xl text-primary md:w-2/5">
-                {{ job.title | titlecase }}
+                {{ job.title | capitalizeFirst }}
               </h3>
               <p class="m-0 font-bold md:w-1/5">
                 {{ job.location | titlecase }}
@@ -100,7 +100,7 @@
               <p class="m-0 text-grayTitle md:w-1/5">
                 {{ formatDepartment(job.department) | titlecase }}
               </p>
-              <p class="m-0 text-grayTitle md:w-1/5">{{ job.years }} years</p>
+              <p class="m-0 text-grayTitle md:w-1/5">{{ job.years }}</p>
             </div>
             <p class="text-grayTitle">Posted: {{ job.updated_at | timeAgo }}</p>
           </div>

@@ -67,12 +67,13 @@ export class CareersService {
 
   yearsOfExperience: { label: string; value: string }[] = [
     { label: 'All Experience Levels', value: '' },
-    { label: '0 - 2 years', value: '0 - 2 ' },
-    { label: '2 - 4 years', value: '2 - 4' },
-    { label: '4 - 6 years', value: '4 - 6' },
-    { label: '6 - 8 years', value: '6 - 8' },
-    { label: '8 - 10 years', value: '8 - 10' },
-    { label: '10+ years', value: '10+' },
+    { label: 'No experience', value: 'No experience' },
+    { label: '0 - 2 years', value: '0 - 2 years' },
+    { label: '2 - 4 years', value: '2 - 4 years' },
+    { label: '4 - 6 years', value: '4 - 6 years' },
+    { label: '6 - 8 years', value: '6 - 8 years' },
+    { label: '8 - 10 years', value: '8 - 10 years' },
+    { label: '10+ years', value: '10+ years' },
   ];
 
   departments: { label: string; value: string }[] = [
