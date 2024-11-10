@@ -202,7 +202,7 @@ export class UserAuthService {
       headers: headers,
     };
 
-    return this.http.post<any>(`${auth_url}`, requestOptions);
+    return this.http.get<any>(`${auth_url}`, requestOptions);
   }
 
   private clearAuthData(): void {
