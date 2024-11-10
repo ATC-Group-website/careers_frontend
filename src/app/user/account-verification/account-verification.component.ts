@@ -62,7 +62,7 @@ export class AccountVerificationComponent implements OnInit {
             user_id: response.user.id,
           });
 
-          const token = localStorage.getItem('token');
+          const token = this.userAuth.getToken();
           console.log('token', token);
 
           console.log('auth_url', this.auth_url);
