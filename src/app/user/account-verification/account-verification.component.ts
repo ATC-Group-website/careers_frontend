@@ -1,16 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserAuthService } from '../services/user-auth.service';
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
+import { CommonModule } from '@angular/common';
+import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-account-verification',
   standalone: true,
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    ButtonModule,
+    PasswordModule,
+    InputTextModule,
+    CommonModule,
+    ToastModule,
+  ],
+  providers: [MessageService],
+
   templateUrl: './account-verification.component.html',
   styleUrl: './account-verification.component.css',
 })
 export class AccountVerificationComponent implements OnInit {
+  messageService = inject(MessageService);
+
   errorMessage: string | null = null;
 
   isLoading: boolean = false;
@@ -34,60 +51,52 @@ export class AccountVerificationComponent implements OnInit {
       return;
     } else {
       this.isLoading = true;
-      // this.userAuth.loginToVerify(formData.form.value).subscribe({
-      //   next: (response) => {
-      //     this.isLoading = false;
+      this.userAuth.loginUser(formData.form.value).subscribe({
+        next: (response) => {
+          console.log(response);
 
-      //     console.log(response);
+          this.userAuth.loginuser({
+            token: response.token,
+            userName: response.user.name,
+            expirationTime: response.expiration_time,
+            user_id: response.user.id,
+          });
 
-      //     if (
-      //       typeof window !== 'undefined' &&
-      //       typeof sessionStorage !== 'undefined'
-      //     ) {
-      //       const token = localStorage.setItem('token', response.token);
+          const token = localStorage.getItem('token');
+          console.log('token', token);
 
-      //       this.isLoading = false;
-      //     }
-
-      //     const token = localStorage.getItem('token');
-      //     console.log(token);
-
-      //     console.log(this.auth_url);
-
-      //     //     this.userAuth.verifyEmail(token, this.auth_url).subscribe({
-      //     //       next: (response) => {
-      //     //         console.log(response);
-      //     //       },
-      //     //       error: (err) => {
-      //     //         console.log(err);
-      //     //       },
-      //     //     });
-      //     //   },
-      //     //   error: (err) => {
-      //     //     this.isLoading = false;
-      //     //     this.errorMessage =
-      //     //       err.error.error || 'Login failed. Please try again.';
-      //     //   },
-      //     // });
-      //     if (this.auth_url) {
-      //       this.userAuth.verifyEmail(token, this.auth_url).subscribe({
-      //         next: (response) => {
-      //           console.log(response);
-      //         },
-      //         error: (err) => {
-      //           console.log(err);
-      //         },
-      //       });
-      //     } else {
-      //       console.error('auth_url is not available');
-      //     }
-      //   },
-      //   error: (err) => {
-      //     this.isLoading = false;
-      //     this.errorMessage =
-      //       err.error.error || 'Login failed. Please try again.';
-      //   },
-      // });
+          console.log('auth_url', this.auth_url);
+          if (this.auth_url) {
+            this.userAuth.verifyEmail(token, this.auth_url).subscribe({
+              next: (response) => {
+                console.log(response);
+                this.messageService.add({
+                  severity: 'info',
+                  summary: 'Success',
+                  detail: `Account verified successfully`,
+                  life: 5000,
+                });
+              },
+              error: (err) => {
+                console.log(err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Rejected',
+                  detail: 'You have rejected',
+                  life: 3000,
+                });
+              },
+            });
+          } else {
+            console.error('auth_url is not available');
+          }
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.errorMessage = err.error.error || ' Invalid credentials ';
+          this.isLoading = false;
+        },
+      });
     }
   }
 }

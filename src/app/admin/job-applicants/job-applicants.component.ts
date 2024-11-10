@@ -102,7 +102,7 @@ export class JobApplicantsComponent implements OnInit {
       this.jobsService.getApplicants(this.jobId).subscribe({
         next: (response) => {
           this.loading = false;
-          // console.log(response);
+          console.log(response);
           this.jobTitle = response.job_title;
 
           this.applicants = response.applicants;
@@ -110,7 +110,7 @@ export class JobApplicantsComponent implements OnInit {
         },
         error: (err) => {
           this.loading = false;
-          // console.log(err);
+          console.log(err);
         },
       });
     });

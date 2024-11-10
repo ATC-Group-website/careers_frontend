@@ -193,17 +193,18 @@ export class UserAuthService {
     return this.userToken.getValue(); // Access current token value
   }
 
-  verifyEmail(userToken: any, auth_url: any): Observable<any> {
+  verifyEmail(token: any, auth_url: string): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${userToken}`,
+      Authorization: `Bearer ${token}`,
     });
 
     const requestOptions = {
       headers: headers,
     };
 
-    return this.http.get<any>(`${auth_url}`, requestOptions);
+    return this.http.post<any>(`${auth_url}`, requestOptions);
   }
+
   private clearAuthData(): void {
     localStorage.removeItem('user');
     localStorage.removeItem('username');
