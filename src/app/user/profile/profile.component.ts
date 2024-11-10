@@ -1,4 +1,3 @@
-import { CareersService } from './../services/careers.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
@@ -16,7 +15,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { User } from '../interfaces/user-interface';
 import { CommonModule } from '@angular/common';
 import {
   DomSanitizer,
@@ -27,6 +25,8 @@ import {
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { Message } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
 
 @Component({
   selector: 'app-profile',
@@ -44,6 +44,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     DialogModule,
     ConfirmDialogModule,
     RouterModule,
+    MessagesModule,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './profile.component.html',
@@ -63,13 +64,16 @@ export class ProfileComponent implements OnInit {
   showCVModal: boolean = false; // Modal visibility state
   selectedCVIndex: number | null = null; // Tracks the selected CV to display
   status: string = ''; // This would be set based on the backend response
+  verifyMessage: Message[] = [];
+  // isVerified = this.authService.isVerified$;
 
-  constructor(
-    private title: Title,
-    private meta: Meta,
-  ) {}
+  isVerified!: string | null;
+
+  constructor(private title: Title) {}
 
   ngOnInit(): void {
+    this.authService.checkStoredVerificationStatus();
+
     this.title.setTitle('ATC Careers');
 
     if (
@@ -81,6 +85,15 @@ export class ProfileComponent implements OnInit {
       if (!token) {
         this.router.navigate(['/login']);
       }
+
+      this.verifyMessage = [
+        {
+          severity: 'info',
+          summary: 'Account Not Verified',
+          detail:
+            'Your account is not verified. <a href="/verify-account" class="">Click here to verify</a>.',
+        },
+      ];
     }
 
     this.UserData = new FormGroup({
@@ -105,6 +118,8 @@ export class ProfileComponent implements OnInit {
           next: (res) => {
             // console.log(res);
             this.user = res;
+
+            this.isVerified = res.email_verified_at;
 
             this.UserData.patchValue({
               name: res.name,
@@ -177,15 +192,20 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  // openCVModal(index: number) {
-  //   this.selectedCVIndex = index; // Set selected CV index
-  //   this.showCVModal = true; // Open the modal
-  // }
+  sendActivationEmail() {
+    this.authService.sendVerificationEmail().subscribe({
+      next: (res) => {
+        // console.log(res);
 
-  // closeCVModal() {
-  //   this.showCVModal = false;
-  //   this.selectedCVIndex = null; // Reset selected CV index
-  // }
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Success',
+          detail: res.message,
+          life: 5000,
+        });
+      },
+    });
+  }
 
   getStatusColor(status: string): string {
     switch (status) {

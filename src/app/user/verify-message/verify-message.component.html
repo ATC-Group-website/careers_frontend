@@ -1,0 +1,16 @@
+<div class="bg-[#E5EFFD] p-2 text-center">
+  <p
+    class="m-1.5 flex flex-col items-center justify-center gap-2 font-bold text-[#3b82f6] md:flex-row"
+  >
+    <span class="flex items-center justify-center gap-2">
+      <i class="pi pi-info-circle text-xl font-black"></i>
+      Your account is not verified.
+    </span>
+    <p-button
+      label="Send verification email"
+      type="button"
+      (onClick)="sendActivationEmail()"
+      [style]="{ padding: '8px 16px' }"
+    />
+  </p>
+</div>

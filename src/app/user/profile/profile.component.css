@@ -17,3 +17,14 @@ label:after {
 .status-applied {
   color: blue;
 }
+.verify-link {
+  color: #1e90ff;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.verify-link:hover {
+  color: #ff4500; /* Changes color on hover */
+  text-decoration: none; /* Removes underline on hover */
+}

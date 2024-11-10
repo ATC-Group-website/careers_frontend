@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 
@@ -32,10 +32,31 @@ export class UserAuthService {
 
   userName$ = this.userNameSubject.asObservable();
 
+  isVerified = signal(false);
   http = inject(HttpClient);
   router = inject(Router);
   constructor() {
     this.checkAuthState();
+  }
+
+  // Set verification status based on response from login
+  setVerificationStatusFromResponse(emailVerifiedAt: string | null) {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const isVerified = !!emailVerifiedAt; // Check if there's a timestamp
+      this.isVerified.set(true);
+
+      // Update local storage if needed (to persist between page reloads)
+
+      localStorage.setItem('isVerified', JSON.stringify(isVerified));
+    }
+  }
+
+  // Check local storage to see if user is already verified (e.g., for page reloads)
+  checkStoredVerificationStatus() {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const storedStatus = localStorage.getItem('isVerified');
+      this.isVerified.set(storedStatus ? JSON.parse(storedStatus) : false);
+    }
   }
 
   private checkAuthState(): void {
@@ -157,7 +178,9 @@ export class UserAuthService {
         const firstName = fullName.split(' ')[0]; // Extract the first word of the name
         const token = response.token; // Assuming the token is provided in the response
         const expirationTime = response.expiration_time; // Convert from minutes to milliseconds
+        // this.checkVerificationStatus(response.email_verified_at);
 
+        // const isVerified = response.email_verified_at;
         // Store the token in local storage
         if (token) {
           // Store authentication data
@@ -205,11 +228,22 @@ export class UserAuthService {
     return this.http.get<any>(`${auth_url}`, requestOptions);
   }
 
+  sendVerificationEmail(): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/email/verification-notification`,
+      {},
+      {
+        headers: this.getAuthUserHeaders(),
+      },
+    );
+  }
+
   private clearAuthData(): void {
     localStorage.removeItem('user');
     localStorage.removeItem('username');
     localStorage.removeItem('user_id');
     localStorage.removeItem('expiration_time');
+    localStorage.removeItem('isVerified');
     this.setAuthState(false, null);
     this.userToken.next(null);
     this.userNameSubject.next(null);

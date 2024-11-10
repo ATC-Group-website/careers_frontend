@@ -31,10 +31,10 @@
         <ng-template pTemplate="header">
           <tr>
             <!-- <th style="width: 2rem">#</th> -->
-            <th style="width: 10%">Name</th>
+            <th style="width: 15%">Name</th>
             <th style="width: 10%">Email</th>
             <th style="width: 10%">Phone Number</th>
-            <th style="width: 10%">University</th>
+            <th style="width: 15%">University</th>
             <th style="width: 10%">Major</th>
             <th style="width: 10%">Graduation year</th>
             <th style="width: 10%">Expected salary</th>
@@ -45,7 +45,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-applicant>
-          <tr>
+          <tr class="h-full">
             <td>{{ applicant.name }}</td>
             <td>
               {{ applicant.email }}
@@ -66,7 +66,7 @@
             </td>
             <td>
               <a
-                [href]="applicant.cv.path"
+                [href]="applicant.cv_path"
                 target="_blank"
                 class="text-blue-500 no-underline"
                 >View CV <i class="pi pi-arrow-up-right text-sm"></i
@@ -75,34 +75,36 @@
             <td>
               {{ applicant.location_eligibility ? "Yes" : "No" }}
             </td>
-            <td class="flex items-center gap-2">
-              <span
-                [ngClass]="{
-                  'bg-green-200 text-green-800':
-                    applicant.status === 'accepted',
-                  'bg-yellow-200 text-yellow-800':
-                    applicant.status === 'in_process',
-                  'bg-red-200 text-red-800': applicant.status === 'rejected',
-                  'bg-gray-200 text-gray-800': applicant.status === 'applied',
-                }"
-                class="rounded-md px-2 py-1"
-              >
-                {{ applicant.status }}
-              </span>
-              <p-button
-                (click)="
-                  openStatusUpdateDialog(
-                    jobId,
-                    applicant.email,
-                    applicant.status
-                  )
-                "
-                icon="pi pi-pen-to-square text-2xl text-blue-500 hover:text-blue-600"
-                link="true"
-                class="p-0"
-                pTooltip="update status"
-                tooltipPosition="bottom"
-              />
+            <td class="">
+              <div class="flex h-full items-center gap-2">
+                <span
+                  [ngClass]="{
+                    'bg-green-200 text-green-800':
+                      applicant.status === 'accepted',
+                    'bg-yellow-200 text-yellow-800':
+                      applicant.status === 'in_process',
+                    'bg-red-200 text-red-800': applicant.status === 'rejected',
+                    'bg-gray-200 text-gray-800': applicant.status === 'applied',
+                  }"
+                  class="rounded-md px-2 py-1"
+                >
+                  {{ applicant.status }}
+                </span>
+                <p-button
+                  (click)="
+                    openStatusUpdateDialog(
+                      jobId,
+                      applicant.email,
+                      applicant.status
+                    )
+                  "
+                  icon="pi pi-pen-to-square text-2xl text-blue-500 hover:text-blue-600"
+                  link="true"
+                  class="p-0"
+                  pTooltip="update status"
+                  tooltipPosition="bottom"
+                />
+              </div>
             </td>
             <td>{{ applicant.years_of_experience }} years</td>
           </tr>
@@ -115,7 +117,7 @@
         [(visible)]="showStatusUpdateDialog"
         [modal]="true"
         [closable]="true"
-        [style]="{ width: '400px', height: '400px' }"
+        [style]="{ width: '400px', height: '300px' }"
         [baseZIndex]="10000"
         [draggable]="false"
         [resizable]="false"

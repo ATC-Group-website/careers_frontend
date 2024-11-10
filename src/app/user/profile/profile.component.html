@@ -1,5 +1,22 @@
 <app-header></app-header>
 <main class="bg-[#fbfbfb]">
+  <div *ngIf="isVerified === null" class="bg-[#E5EFFD] p-2 text-center">
+    <p
+      class="m-1.5 flex flex-col items-center justify-center gap-2 font-bold text-[#3b82f6] md:flex-row"
+    >
+      <span class="flex items-center justify-center gap-2">
+        <i class="pi pi-info-circle text-xl font-black"></i>
+        Your account is not verified.
+      </span>
+      <p-button
+        label="Send verification email"
+        type="button"
+        (onClick)="sendActivationEmail()"
+        [style]="{ padding: '8px 16px' }"
+      />
+    </p>
+  </div>
+
   @if (isLoading) {
     <div class="flex h-screen items-center justify-center">
       <app-loading-spinner></app-loading-spinner>
@@ -62,6 +79,9 @@
                     UserData.controls['email'].invalid,
                 }"
               />
+              <!-- <span class="mt-2 ps-2 text-sm font-bold text-green-600"
+                >Verified</span
+              > -->
             </div>
           </div>
           <div class="flex flex-col md:flex-row md:gap-5">

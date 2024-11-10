@@ -1,5 +1,5 @@
 import { PasswordModule } from 'primeng/password';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -26,7 +26,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: string | null = null;
 
@@ -47,6 +47,10 @@ export class LoginComponent {
     }
   }
 
+  ngOnInit(): void {
+    this.authService.checkStoredVerificationStatus();
+  }
+
   onLogin(formData: NgForm) {
     if (formData.form.invalid) {
       Object.keys(formData.form.controls).forEach((field) => {
@@ -60,6 +64,13 @@ export class LoginComponent {
       this.authService.loginUser(formData.form.value).subscribe({
         next: (response) => {
           // console.log(response);
+
+          this.authService.setVerificationStatusFromResponse(
+            response.user.email_verified_at,
+          );
+          // console.log(response.user.email_verified_at);
+
+          this.authService.checkStoredVerificationStatus();
 
           this.authService.loginuser({
             token: response.token,
