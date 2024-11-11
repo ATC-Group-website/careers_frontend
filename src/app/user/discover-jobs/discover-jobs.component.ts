@@ -4,10 +4,8 @@ import { FooterComponent } from '../footer/footer.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
-import { InputTextModule } from 'primeng/inputtext';
 import { Job } from '../../admin/interfaces/admin.interface';
 import { CareersService } from '../services/careers.service';
-import { CardModule } from 'primeng/card';
 import { TimeAgoPipe } from '../../pipes/time-ago.pipe';
 import { TitleCasePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -18,7 +16,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { combineLatest } from 'rxjs';
 import { EmailResumeComponent } from '../email-resume/email-resume.component';
 import { Meta, Title } from '@angular/platform-browser';
-import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
 import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
 
 @Component({
@@ -29,8 +26,6 @@ import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
     FooterComponent,
     InputIconModule,
     IconFieldModule,
-    InputTextModule,
-    CardModule,
     TimeAgoPipe,
     TitleCasePipe,
     RouterModule,
@@ -38,7 +33,6 @@ import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
     DropdownModule,
     ReactiveFormsModule,
     EmailResumeComponent,
-    LoadingSpinnerComponent,
     CapitalizeFirstPipe,
   ],
   templateUrl: './discover-jobs.component.html',

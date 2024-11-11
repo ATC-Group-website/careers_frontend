@@ -1,11 +1,8 @@
 import { Routes } from '@angular/router';
 import { DiscoverJobsComponent } from './user/discover-jobs/discover-jobs.component';
-import { LoginComponent } from './user/login/login.component';
-import { RegisterComponent } from './user/register/register.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+// import { NotFoundComponent } from './not-found/not-found.component';
 import { adminAuthGuard } from './admin/guards/admin-auth.guard';
 import { JobDetailsComponent } from './user/job-details/job-details.component';
-import { ProfileComponent } from './user/profile/profile.component';
 import { ApplyPageComponent } from './user/apply-page/apply-page.component';
 
 export const routes: Routes = [
@@ -13,9 +10,33 @@ export const routes: Routes = [
   { path: '', component: DiscoverJobsComponent },
   { path: 'jobs/:id', component: JobDetailsComponent },
   { path: 'jobs/apply/:id', component: ApplyPageComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./user/login/login.component').then((mod) => mod.LoginComponent),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./user/register/register.component').then(
+        (mod) => mod.RegisterComponent,
+      ),
+  },
+  // { path: 'profile', component: ProfileComponent },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./user/profile/profile.component').then(
+        (mod) => mod.ProfileComponent,
+      ),
+  },
+  {
+    path: 'profile/update-password',
+    loadComponent: () =>
+      import('./user/change-password/change-password.component').then(
+        (mod) => mod.ChangePasswordComponent,
+      ),
+  },
   {
     path: 'verify_mail',
     loadComponent: () =>
