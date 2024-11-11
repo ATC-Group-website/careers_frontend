@@ -1,45 +1,26 @@
-<!-- <nav class="border-gray-200 bg-white">
-  <div
-    class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4"
-  >
-    <a routerLink="/admin/dashboard" class="flex items-center no-underline">
-      <span class="self-center whitespace-nowrap text-xl text-primary"
-        >ATC Careers Dashboard</span
-      >
-    </a>
-    <div class="flex flex-col items-center justify-center gap-5">
-      <ul class="m-0 flex w-full list-none justify-between gap-6">
-        <li class="">
-          <a
-            routerLink="/admin/dashboard/jobs"
-            class="rounded-md p-3 text-black no-underline hover:bg-primary hover:text-white"
-            >Jobs</a
-          >
-        </li>
-        <li class="">
-          <a
-            routerLink="/admin/dashboard/new-job"
-            class="rounded-md p-3 text-black no-underline hover:bg-primary hover:text-white active:text-blue-800"
-            >New Job</a
-          >
-        </li>
-      </ul>
-    </div>
-    <div class="block w-full md:w-auto" id="navbar-default">
-      <ul
-        class="mt-4 flex list-none flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0"
-      >
-        <li class="flex items-center justify-center">
-          <a
-            class="block h-full cursor-pointer rounded bg-primary !px-3 !py-2 text-white md:border-0 md:p-0"
-            (click)="logout()"
-            >Logout</a
-          >
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav> -->
 <app-topbar></app-topbar>
-
-<!-- <app-sidebar></app-sidebar> -->
+@if (live_jobs_count && archived_jobs_count && users_count) {
+  <main
+    class="mx-5 mt-24 grid grid-cols-1 gap-10 pt-5 md:grid-cols-2 lg:ml-64 lg:grid-cols-3"
+  >
+    <div class="card mx-auto w-full">
+      <p-card header="Active jobs" class="">
+        <p class="text-xl font-semibold">{{ live_jobs_count }}</p>
+      </p-card>
+    </div>
+    <div class="card mx-auto w-full">
+      <p-card header="Archived jobs" class="">
+        <p class="text-xl font-semibold">{{ archived_jobs_count }}</p>
+      </p-card>
+    </div>
+    <div class="card mx-auto w-full">
+      <p-card header="Users" class="">
+        <p class="text-xl font-semibold">{{ users_count }}</p>
+      </p-card>
+    </div>
+  </main>
+} @else {
+  <div class="flex h-screen w-screen items-center justify-center">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+}

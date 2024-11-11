@@ -29,13 +29,24 @@
             <th style="width: 20%">Department</th>
             <th style="width: 10%">Location</th>
             <th style="width: 20%">Applicants</th>
-            <th class="width: 20%">Actions</th>
+            <!-- <th style="width: 15%">applied (rejected)</th> -->
+            <th class="width: 20%" class="text-center">Actions</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-archivedJob>
           <tr>
             <td>{{ archivedJob.id }}</td>
-            <td>{{ archivedJob.title }}</td>
+            <td>
+              <span class="" pTooltip="View job post" tooltipPosition="bottom">
+                <a
+                  [routerLink]="['/jobs', archivedJob.id]"
+                  target="_blank"
+                  class="text-black no-underline hover:text-blue-500"
+                >
+                  {{ archivedJob.title }}
+                  <i class="pi pi-arrow-up-right"></i> </a
+              ></span>
+            </td>
             <td>{{ archivedJob.years }} years</td>
             <td>
               {{ formatDepartment(archivedJob.department) | titlecase }}
@@ -43,7 +54,7 @@
             <td>{{ archivedJob.location.split(",")[0] }}</td>
             <td>
               <a
-                class="cursor-pointer hover:underline"
+                class="cursor-pointer text-black hover:text-blue-500 hover:underline"
                 [routerLink]="[
                   '/admin/dashboard/job/applicants',
                   archivedJob.id,
@@ -52,6 +63,15 @@
                 View applicants
               </a>
             </td>
+            <!-- <td class="text-lg">
+              <span class="mr-1">{{
+                archivedJob.all_applicants_count || 0
+              }}</span>
+              (<span class="text-primary">{{
+                archivedJob.rejected_count || 0
+              }}</span
+              >)
+            </td> -->
             <td class="flex items-center justify-around">
               <p-button
                 (onClick)="navigateToDetails(archivedJob.id)"

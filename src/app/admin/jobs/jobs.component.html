@@ -25,9 +25,10 @@
             <th style="width: 2rem">#</th>
             <th style="width: 20%">Title</th>
             <th style="width: 15%">Years of experience</th>
-            <th style="width: 20%">Department</th>
+            <th style="width: 10%">Department</th>
             <th style="width: 10%">Location</th>
             <th style="width: 20%">Applicants</th>
+            <th style="width: 15%">applied (rejected)</th>
             <th>Edit</th>
             <th>Archive</th>
           </tr>
@@ -35,17 +36,32 @@
         <ng-template pTemplate="body" let-job>
           <tr>
             <td>{{ job.id }}</td>
-            <td>{{ job.title }}</td>
+            <td>
+              <span class="" pTooltip="View job post" tooltipPosition="bottom">
+                <a
+                  [routerLink]="['/jobs', job.id]"
+                  target="_blank"
+                  class="text-black no-underline hover:text-blue-500"
+                >
+                  {{ job.title }}
+                  <i class="pi pi-arrow-up-right"></i> </a
+              ></span>
+            </td>
             <td>{{ job.years }}</td>
             <td>{{ formatDepartment(job.department) | titlecase }}</td>
             <td>{{ job.location.split(",")[0] }}</td>
             <td>
               <a
-                class="cursor-pointer hover:underline"
+                class="cursor-pointer text-black hover:text-blue-500 hover:underline"
                 [routerLink]="['/admin/dashboard/job/applicants', job.id]"
               >
                 View applicants
               </a>
+            </td>
+            <td class="text-lg">
+              <span class="mr-1">{{ job.all_applicants_count || 0 }}</span>
+              (<span class="text-primary">{{ job.rejected_count || 0 }}</span
+              >)
             </td>
             <td>
               <p-button

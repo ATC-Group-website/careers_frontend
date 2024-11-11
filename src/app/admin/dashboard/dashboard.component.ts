@@ -1,22 +1,25 @@
-import { Component, Inject, inject, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { AdminAuthService } from '../services/admin-auth.service';
-import { SidebarComponent } from '../sidebar/sidebar.component';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TopbarComponent } from '../topbar/topbar.component';
-import { SidebarService } from '../sidebar/sidebar.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { CardModule } from 'primeng/card';
+import { JobsService } from '../services/jobs.service';
+import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, SidebarComponent, TopbarComponent],
+  imports: [TopbarComponent, CardModule, LoadingSpinnerComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent {
-  authService = inject(AdminAuthService);
+export class DashboardComponent implements OnInit {
+  jobsService = inject(JobsService);
   router = inject(Router);
-  sidebarService = Inject(SidebarService);
+
+  users_count!: number;
+  archived_jobs_count!: number;
+  live_jobs_count!: number;
 
   constructor(
     private title: Title,
@@ -24,11 +27,37 @@ export class DashboardComponent {
   ) {
     this.title.setTitle('ATC Careers');
   }
-  logout() {
-    this.authService.logout().subscribe({
+
+  ngOnInit(): void {
+    this.fetchDataCount();
+  }
+
+  fetchDataCount() {
+    this.jobsService.getActiveJobsCount().subscribe({
       next: (res) => {
-        sessionStorage.removeItem('token');
-        this.router.navigateByUrl('/');
+        // console.log(res);
+        this.live_jobs_count = res;
+      },
+      error: (err) => {
+        // console.log(err);
+      },
+    });
+    this.jobsService.getArchivedJobsCount().subscribe({
+      next: (res) => {
+        // console.log(res);
+        this.archived_jobs_count = res;
+      },
+      error: (err) => {
+        // console.log(err);
+      },
+    });
+    this.jobsService.getAllUsersCount().subscribe({
+      next: (res) => {
+        // console.log(res);
+        this.users_count = res;
+      },
+      error: (err) => {
+        // console.log(err);
       },
     });
   }

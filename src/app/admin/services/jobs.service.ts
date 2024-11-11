@@ -102,6 +102,24 @@ export class JobsService {
     );
   }
 
+  getActiveJobsCount(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/jobs/live/count`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  getArchivedJobsCount(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/jobs/archived/count`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  getAllUsersCount(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/count`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
   cities: string[] = [
     'Alexandria, Egypt',
     'Al Khobar, Saudi Arabia',
