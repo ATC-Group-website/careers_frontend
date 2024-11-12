@@ -4,6 +4,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
+import { InputTextModule } from 'primeng/inputtext';
 import { Job } from '../../admin/interfaces/admin.interface';
 import { CareersService } from '../services/careers.service';
 import { TimeAgoPipe } from '../../pipes/time-ago.pipe';
@@ -26,6 +27,7 @@ import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
     FooterComponent,
     InputIconModule,
     IconFieldModule,
+    InputTextModule,
     TimeAgoPipe,
     TitleCasePipe,
     RouterModule,
