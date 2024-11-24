@@ -130,6 +130,7 @@ export class DiscoverJobsComponent implements OnInit {
     this.loading = true;
     // Disable all controls while loading
     // this.filterForm.disable();
+    // console.log(this.filterForm);
 
     this.careersService
       .fetchJobs(
