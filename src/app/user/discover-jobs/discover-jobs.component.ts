@@ -137,7 +137,8 @@ export class DiscoverJobsComponent implements OnInit {
     this.jobs = [];
     this.currentPage = 1;
     this.noMoreJobs = false;
-    this.getJobs();
+    // this.getJobs();
+    this.fetchJobs();
   }
 
   clearFilters() {
