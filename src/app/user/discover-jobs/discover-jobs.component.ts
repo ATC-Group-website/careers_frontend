@@ -143,8 +143,7 @@ export class DiscoverJobsComponent implements OnInit {
       )
       .subscribe({
         next: (response) => {
-          // console.log(response);
-          // console.log('inside job fetch 1');
+          console.log(response.data);
 
           this.loading = false;
           this.filterForm.enable(); // Re-enable controls after loading
