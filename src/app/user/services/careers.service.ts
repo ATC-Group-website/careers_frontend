@@ -20,19 +20,47 @@ export class CareersService {
   //   );
   // }
 
+  // fetchJobs(
+  //   pageNum: number | null,
+  //   term: string | null,
+  //   location: string | null,
+  //   department: string | null,
+  //   years: string | null,
+  // ): Observable<any> {
+  //   let params = new HttpParams()
+  //     .set('page', pageNum)
+  //     .set('title', term)
+  //     .set('location', location)
+  //     .set('department', department)
+  //     .set('years', years);
+  //   return this.http.get(`${this.apiUrl}/post/search`, { params });
+  // }
+
   fetchJobs(
-    pageNum: number,
-    term: string,
-    location: string,
-    department: string,
-    years: string,
+    pageNum: number | null,
+    term: string | null,
+    location: string | null,
+    department: string | null,
+    years: string | null,
   ): Observable<any> {
-    let params = new HttpParams()
-      .set('page', pageNum)
-      .set('title', term)
-      .set('location', location)
-      .set('department', department)
-      .set('years', years);
+    let params = new HttpParams();
+
+    if (pageNum !== null) {
+      params = params.set('page', pageNum.toString());
+    }
+    if (term) {
+      params = params.set('title', term);
+    }
+    if (location) {
+      params = params.set('location', location);
+    }
+    if (department) {
+      params = params.set('department', department);
+    }
+    if (years) {
+      params = params.set('years', years);
+    }
+
     return this.http.get(`${this.apiUrl}/post/search`, { params });
   }
 

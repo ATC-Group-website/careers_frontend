@@ -57,10 +57,10 @@ export class DiscoverJobsComponent implements OnInit {
 
   // Create a FormGroup for all filters
   filterForm = new FormGroup({
-    search: new FormControl({ value: '', disabled: false }),
-    location: new FormControl({ value: '', disabled: false }),
-    departments: new FormControl({ value: '', disabled: false }),
-    years: new FormControl({ value: '', disabled: false }),
+    search: new FormControl({ value: null, disabled: false }),
+    location: new FormControl({ value: null, disabled: false }),
+    departments: new FormControl({ value: null, disabled: false }),
+    years: new FormControl({ value: null, disabled: false }),
   });
 
   constructor(
@@ -136,10 +136,10 @@ export class DiscoverJobsComponent implements OnInit {
     this.careersService
       .fetchJobs(
         this.currentPage,
-        this.filterForm.get('search')?.value || '', // Use the current search value
-        this.filterForm.get('location')?.value || '',
-        this.filterForm.get('departments')?.value || '', // Fix here: changed 'department' to 'departments'
-        this.filterForm.get('years')?.value || '',
+        this.filterForm.get('search')?.value || null,
+        this.filterForm.get('location')?.value || null,
+        this.filterForm.get('departments')?.value || null,
+        this.filterForm.get('years')?.value || null,
       )
       .subscribe({
         next: (response) => {
