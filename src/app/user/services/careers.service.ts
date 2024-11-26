@@ -46,7 +46,7 @@ export class CareersService {
     let params = new HttpParams();
 
     if (pageNum !== null) {
-      params = params.set('page', pageNum.toString());
+      params = params.set('page', pageNum);
     }
     if (term) {
       params = params.set('title', term);
