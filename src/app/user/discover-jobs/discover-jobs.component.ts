@@ -18,6 +18,7 @@ import { combineLatest } from 'rxjs';
 import { EmailResumeComponent } from '../email-resume/email-resume.component';
 import { Meta, Title } from '@angular/platform-browser';
 import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
+import { JobsService } from '../../admin/services/jobs.service';
 
 @Component({
   selector: 'app-discover-jobs',
@@ -43,7 +44,10 @@ import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
 export class DiscoverJobsComponent implements OnInit {
   jobs: Job[] = [];
   currentPage: number = 1;
+  jobsPerPage: number = 10; // Number of jobs per page
   careersService = inject(CareersService);
+  // get paginated jobs on page start without the search
+  jobsService = inject(JobsService);
 
   locationsOptions = this.careersService.locations;
   yearsFilterOptions = this.careersService.yearsOfExperience;
@@ -78,9 +82,27 @@ export class DiscoverJobsComponent implements OnInit {
     });
 
     // this.getJobs();
-    this.clearFilters();
+    // this.clearFilters();
+    this.fetchJobs();
     this.setupSearch();
     this.setupFilters();
+  }
+
+  fetchJobs() {
+    this.jobsService
+      .getPaginatedJobs(this.jobsPerPage, this.currentPage)
+      .subscribe({
+        next: (response) => {
+          this.loading = false;
+          console.log(response.data);
+
+          this.jobs = response.data;
+        },
+        error: (err) => {
+          this.loading = false;
+          // console.log(err);
+        },
+      });
   }
 
   setupSearch() {
@@ -165,7 +187,8 @@ export class DiscoverJobsComponent implements OnInit {
   onLoadMore(): void {
     if (this.currentPage < this.lastPage) {
       this.currentPage += 1;
-      this.getJobs();
+      // this.getJobs();
+      this.fetchJobs();
     } else {
       this.noMoreJobs = true;
     }
