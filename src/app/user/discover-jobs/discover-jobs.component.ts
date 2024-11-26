@@ -77,9 +77,10 @@ export class DiscoverJobsComponent implements OnInit {
         'Explore current job openings at ATC Careers. Apply today to join our team and advance your career with exciting opportunities.',
     });
 
+    // this.getJobs();
+    this.clearFilters();
     this.setupSearch();
     this.setupFilters();
-    this.getJobs();
   }
 
   setupSearch() {
