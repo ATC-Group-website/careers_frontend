@@ -63,7 +63,7 @@ export class CareersService {
 
     const fullUrl = `${this.apiUrl}/post/search?${params.toString()}`;
     console.log('API Request:', fullUrl); // Log the full API URL
-    
+
     return this.http.get(`${this.apiUrl}/post/search`, { params });
   }
 
@@ -117,11 +117,16 @@ export class CareersService {
     { label: 'HR', value: 'HR' },
     { label: 'Insurance', value: 'insurance' },
     { label: 'International Taxation', value: 'international_taxation' },
+    {
+      label: 'Investment & Company Incorporation',
+      value: 'Investment_and_company_incorporation',
+    },
     { label: 'IT', value: 'it' },
     { label: 'Marketing', value: 'marketing' },
     { label: 'Payroll', value: 'payroll' },
     { label: 'Sales', value: 'sales' },
     { label: 'Stamp Tax', value: 'stamp_tax' },
+    { label: 'Translation', value: 'translation' },
     { label: 'Value Added Tax (VAT)', value: 'vat' },
   ];
 }

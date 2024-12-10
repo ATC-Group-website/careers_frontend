@@ -45,7 +45,7 @@ import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
     InputGroupAddonModule,
     ToastModule,
     DialogModule,
-    CapitalizeFirstPipe
+    CapitalizeFirstPipe,
   ],
   providers: [MessageService],
   templateUrl: './apply-page.component.html',
