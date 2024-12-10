@@ -61,8 +61,8 @@ export class CareersService {
       params = params.set('years', years);
     }
 
-    const fullUrl = `${this.apiUrl}/post/search?${params.toString()}`;
-    console.log('API Request:', fullUrl); // Log the full API URL
+    // const fullUrl = `${this.apiUrl}/post/search?${params.toString()}`;
+    // console.log('API Request:', fullUrl); // Log the full API URL
 
     return this.http.get(`${this.apiUrl}/post/search`, { params });
   }

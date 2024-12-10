@@ -105,7 +105,7 @@ export class JobApplicantsComponent implements OnInit {
           // console.log(response);
           this.jobTitle = response.job_title;
 
-          this.applicants = response.applicants;
+          this.applicants = response.applicants.reverse();
           // this.totalJobs = response.total;
         },
         error: (err) => {
