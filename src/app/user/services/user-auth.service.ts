@@ -12,7 +12,7 @@ interface AuthState {
   providedIn: 'root',
 })
 export class UserAuthService {
-  private apiUrl = 'https://test.ahleldaraeb.com';
+  private apiUrl = 'https://api.jobs.atc.com.eg';
 
   private logoutTimer: any;
   private authState = new BehaviorSubject<AuthState>({

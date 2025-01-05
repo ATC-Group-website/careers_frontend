@@ -208,7 +208,7 @@ export class JobApplicantsComponent implements OnInit {
         .subscribe({
           next: (response) => {
             this.fetchApplicants();
-            // console.log(response);
+            // console.log(response);w
             this.messageService.add({
               severity: 'success',
               summary: 'Success',

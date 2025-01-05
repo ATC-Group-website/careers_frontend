@@ -13,8 +13,10 @@ import {
 import {
   provideHttpClient,
   withFetch,
+  withInterceptors,
 } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { errorInterceptor } from './admin/guards/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,7 +31,7 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideClientHydration(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([errorInterceptor])),
     importProvidersFrom([BrowserModule, BrowserAnimationsModule]),
   ],
 };

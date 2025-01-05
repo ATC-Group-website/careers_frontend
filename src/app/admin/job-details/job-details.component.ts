@@ -90,7 +90,7 @@ export class JobDetailsComponent implements OnInit {
       this.jobsService.getSingleJob(this.id).subscribe({
         next: (res) => {
           this.job = res.job;
-          console.log(res);
+          // console.log(res);
 
           this.updateJobForm.patchValue({
             title: this.job.title,
@@ -114,11 +114,13 @@ export class JobDetailsComponent implements OnInit {
       this.isLoading = true;
 
       const jobData = this.updateJobForm.value;
-      console.log('Job Updated:', jobData);
+      // console.log('Job Updated:', jobData);
 
       this.jobsService.updateJob(this.id, jobData).subscribe({
         next: (res) => {
-          console.log(res);
+          console.log(jobData.description);
+
+          // console.log(res);
           this.fetchJobDetails();
 
           this.isLoading = false;
@@ -134,10 +136,6 @@ export class JobDetailsComponent implements OnInit {
         error: (error) => {
           this.isLoading = false;
           console.error('Error updating job:', error);
-          if ((error.status = 401)) {
-            sessionStorage.removeItem('token');
-            this.router.navigateByUrl('admin/login');
-          }
           this.messageService.add({
             severity: 'error',
             summary: 'Error',

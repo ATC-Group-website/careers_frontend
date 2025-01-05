@@ -135,7 +135,6 @@ export class ArchivedJobsComponent implements OnInit {
         // Call the deleteJob method and subscribe to handle the response
         this.jobsService.deleteJob(jobId).subscribe({
           next: (response) => {
-            // console.log(response);
             this.fetchArchivedJobs(this.currentPage);
             this.messageService.add({
               severity: 'info',
