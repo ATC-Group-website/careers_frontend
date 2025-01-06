@@ -10,7 +10,7 @@ export class CareersService {
   http = inject(HttpClient);
   userAuth = inject(UserAuthService);
 
-  private apiUrl = 'https://api.jobs.atc.com.eg';
+  private apiUrl = 'https://jobs.api.atc.com.eg';
 
   constructor() {}
 

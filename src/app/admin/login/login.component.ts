@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AdminAuthService } from '../services/admin-auth.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { Meta, Title } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -21,10 +21,7 @@ export class LoginComponent {
   isLoading: boolean = false;
   errorMessage: string | null = null;
 
-  constructor(
-    private title: Title,
-    private meta: Meta,
-  ) {
+  constructor(private title: Title) {
     this.title.setTitle('ATC Careers');
 
     if (
@@ -57,6 +54,8 @@ export class LoginComponent {
           this.isLoading = false;
         },
         error: (err) => {
+          console.log(err);
+
           this.errorMessage = err.error.error || ' Invalid credentials ';
           this.isLoading = false;
         },
