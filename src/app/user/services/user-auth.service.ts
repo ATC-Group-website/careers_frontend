@@ -70,9 +70,6 @@ export class UserAuthService {
         const expTime = Number(expirationTime) * 1000; // Convert expiration time to milliseconds
         const currentTime = Date.now();
 
-        // console.log(expTime);
-        // console.log(currentTime);
-
         if (currentTime < expTime) {
           // Token is still valid
           this.setAuthState(true, userName);
