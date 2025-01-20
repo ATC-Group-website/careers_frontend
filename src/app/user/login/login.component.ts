@@ -63,16 +63,13 @@ export class LoginComponent implements OnInit {
 
       this.authService.loginUser(formData.form.value).subscribe({
         next: (response) => {
-          // console.log(response);
-
           this.authService.setVerificationStatusFromResponse(
             response.user.email_verified_at,
           );
-          // console.log(response.user.email_verified_at);
 
           this.authService.checkStoredVerificationStatus();
 
-          this.authService.loginuser({
+          this.authService.saveUserData({
             token: response.token,
             userName: response.user.name,
             expirationTime: response.expiration_time,
@@ -83,6 +80,8 @@ export class LoginComponent implements OnInit {
           this.isLoading = false;
         },
         error: (err) => {
+          // console.log(err);
+
           this.errorMessage = err.error.error || ' Invalid credentials ';
           this.isLoading = false;
         },

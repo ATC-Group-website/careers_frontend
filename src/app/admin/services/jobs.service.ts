@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 export class JobsService {
   http = inject(HttpClient);
 
-  private apiUrl = 'https://jobs.api.atc.com.eg';
+  // private apiUrl = 'https://jobs.api.atc.com.eg';
+  private apiUrl = 'https://careers.api.atcprotraining.com';
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 

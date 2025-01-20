@@ -13,7 +13,8 @@ export class AdminAuthService {
   http = inject(HttpClient);
   jobsService = inject(JobsService);
 
-  private apiUrl = 'https://jobs.api.atc.com.eg';
+  // private apiUrl = 'https://jobs.api.atc.com.eg';
+  private apiUrl = 'https://careers.api.atcprotraining.com';
 
   // Initialize BehaviorSubject with token from sessionStorage if available
   adminToken: BehaviorSubject<string | null> = new BehaviorSubject<

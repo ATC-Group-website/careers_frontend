@@ -21,7 +21,7 @@ export class SidebarService {
   toggleSidebar() {
     const newVisibility = !this.sidebarVisible.value;
     this.sidebarVisible.next(newVisibility);
-    console.log('new value ' + newVisibility);
+    // console.log('new value ' + newVisibility);
 
     // Save the updated visibility to localStorage
     localStorage.setItem('sidebarVisible', JSON.stringify(newVisibility));

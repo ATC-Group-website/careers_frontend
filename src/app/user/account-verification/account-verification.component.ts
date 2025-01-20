@@ -61,7 +61,7 @@ export class AccountVerificationComponent implements OnInit {
         next: (response) => {
           // console.log(response);
 
-          this.userAuth.loginuser({
+          this.userAuth.saveUserData({
             token: response.token,
             userName: response.user.name,
             expirationTime: response.expiration_time,

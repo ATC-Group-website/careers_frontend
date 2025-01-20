@@ -12,7 +12,8 @@ interface AuthState {
   providedIn: 'root',
 })
 export class UserAuthService {
-  private apiUrl = 'https://jobs.api.atc.com.eg';
+  // private apiUrl = 'https://jobs.api.atc.com.eg';
+  private apiUrl = 'https://careers.api.atcprotraining.com';
 
   private logoutTimer: any;
   private authState = new BehaviorSubject<AuthState>({
@@ -105,18 +106,18 @@ export class UserAuthService {
     });
   }
 
-  private setAutoLogoutTimer(duration: number): void {
-    if (this.logoutTimer) {
-      clearTimeout(this.logoutTimer);
-    }
+  // private setAutoLogoutTimer(duration: number): void {
+  //   if (this.logoutTimer) {
+  //     clearTimeout(this.logoutTimer);
+  //   }
 
-    this.logoutTimer = setTimeout(() => {
-      // console.log('Token expired - auto logout in the function');
-      this.logoutUser();
-    }, duration);
-  }
+  //   this.logoutTimer = setTimeout(() => {
+  //     // console.log('Token expired - auto logout in the function');
+  //     this.logoutUser();
+  //   }, duration);
+  // }
 
-  loginuser(userData: {
+  saveUserData(userData: {
     token: string;
     userName: string;
     expirationTime: number;
@@ -128,7 +129,8 @@ export class UserAuthService {
     localStorage.setItem('user_id', userData.user_id);
 
     this.setAuthState(true, userData.userName);
-    this.setAutoLogoutTimer(userData.expirationTime - Date.now());
+    // debugger;
+    // this.setAutoLogoutTimer(userData.expirationTime - Date.now());
     // console.log('problem here in loginuser');
   }
 
@@ -197,7 +199,7 @@ export class UserAuthService {
           const expTime = expirationTime * 1000; // Convert from seconds to milliseconds
           const currentTime = Date.now(); // Current time in milliseconds
 
-          this.setAutoLogoutTimer(expTime - currentTime); // Calculate duration until expiry
+          // this.setAutoLogoutTimer(expTime - currentTime); // Calculate duration until expiry
           // console.log('problem here in loginUser');
         }
       }),
