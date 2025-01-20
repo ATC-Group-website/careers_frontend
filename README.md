@@ -1,28 +1,79 @@
-# CareersFrontend
+# ATC Careers Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.6.
+Welcome to the **ATC Careers Frontend** repository! This project is the official website for **ATC Group Careers**
 
-## Development server
+## 🌟 About ATC Group
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+ATC Group is dedicated to providing tailored financial solutions to businesses and individuals. Our mission is to empower our clients with top-notch consulting services, ensuring their financial success in an ever-changing landscape.
 
-## Code scaffolding
+## 📋 Requirements
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Node.js**: v18.x or higher
+- **Angular CLI**: v18.x
+- **Dependencies**: Refer to `package.json` for all required libraries.
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 🔧 Installation
 
-## Running unit tests
+1. Clone the repository:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+git clone https://github.com/ATC-Group-website/careers_frontend.git
+cd careers_frontend
+// Install dependencies:
+npm install
+```
 
-## Running end-to-end tests
+2. Start the development server:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+Copy code
+npm start
+The app will be available at http://localhost:4200.
+```
 
-## Further help
+To run the SSR build:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-# careers_frontend
+```bash
+Copy code
+npm run serve:ssr:careers_frontend
+The SSR app will be available at http://localhost:4000.
+```
+
+### 🛠 Project Structure
+
+src/app: Contains all the Angular components, services, and modules.
+public: Static files like images, fonts, and JSON files.
+
+### 📦 Dependencies
+
+Key dependencies used in this project:
+
+- Angular: Framework for building the app.
+- PrimeNG: UI components for Angular.
+- TailwindCSS: Utility-first CSS framework.
+- Quill: Rich text editor.
+- Refer to the package.json for the complete list.
+
+### 💻 Development Scripts
+
+- npm start: Starts the development server.
+- npm run build: Builds the project for production.
+- npm run test: Runs unit tests.
+- npm run serve:ssr:careers_frontend: Serves the SSR build.
+
+### 🌐 Live Demo
+
+The live version of the website can be found at: [www.jobs.atc.com.eg](https://jobs.atc.com.eg)
+
+## 🤝 Contact
+
+For any inquiries or support, feel free to reach out:
+
+- **Email**: [development@atc.com.eg](mailto:development@atc.com.eg)
+- **Website**: [www.atc.com.eg](https://atc.com.eg)
+- **LinkedIn**: [LinkedIn](https://www.linkedin.com/company/atcgroupmiddleeast)
+- **FaceBook**: [Facebook](https://www.facebook.com/p/ATC-Group-100067854885668)
+- **Instagram**: [Instagram](https://www.instagram.com/atcgroup.eg)
+- **X**: [X](https://x.com/ATCGroup143796)
