@@ -13,7 +13,6 @@ export class CareersService {
   // private apiUrl = 'https://jobs.api.atc.com.eg';
   private apiUrl = 'https://careers.api.atcprotraining.com';
 
-
   constructor() {}
 
   // getCurrentJobs(jobsPerPage: number, pageNum: number): Observable<any> {
@@ -126,6 +125,7 @@ export class CareersService {
     { label: 'IT', value: 'it' },
     { label: 'Marketing', value: 'marketing' },
     { label: 'Payroll', value: 'payroll' },
+    { label: 'Pro Training Division', value: 'pro_training' },
     { label: 'Sales', value: 'sales' },
     { label: 'Stamp Tax', value: 'stamp_tax' },
     { label: 'Translation', value: 'translation' },

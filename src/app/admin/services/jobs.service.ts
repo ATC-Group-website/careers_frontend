@@ -159,6 +159,7 @@ export class JobsService {
     { label: 'IT', value: 'it' },
     { label: 'Marketing', value: 'marketing' },
     { label: 'Payroll', value: 'payroll' },
+    { label: 'Pro Training Division', value: 'pro_training' },
     { label: 'Sales', value: 'sales' },
     { label: 'Stamp Tax', value: 'stamp_tax' },
     { label: 'Translation', value: 'translation' },
