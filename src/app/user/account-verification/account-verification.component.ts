@@ -22,7 +22,6 @@ import { Title } from '@angular/platform-browser';
     ToastModule,
   ],
   providers: [MessageService],
-
   templateUrl: './account-verification.component.html',
   styleUrl: './account-verification.component.css',
 })

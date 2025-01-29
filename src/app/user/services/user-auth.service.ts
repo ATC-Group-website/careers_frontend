@@ -13,7 +13,8 @@ interface AuthState {
 })
 export class UserAuthService {
   // private apiUrl = 'https://jobs.api.atc.com.eg';
-  private apiUrl = 'https://careers.api.atcprotraining.com';
+  // private apiUrl = 'https://careers.api.atcprotraining.com';
+  private apiUrl = 'https://careers.api.atc.com.eg';
 
   private logoutTimer: any;
   private authState = new BehaviorSubject<AuthState>({

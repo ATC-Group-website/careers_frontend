@@ -11,7 +11,8 @@ export class CareersService {
   userAuth = inject(UserAuthService);
 
   // private apiUrl = 'https://jobs.api.atc.com.eg';
-  private apiUrl = 'https://careers.api.atcprotraining.com';
+  // private apiUrl = 'https://careers.api.atcprotraining.com';
+  private apiUrl = 'https://careers.api.atc.com.eg';
 
   constructor() {}
 

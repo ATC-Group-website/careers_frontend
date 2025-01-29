@@ -10,7 +10,8 @@ export class JobsService {
   http = inject(HttpClient);
 
   // private apiUrl = 'https://jobs.api.atc.com.eg';
-  private apiUrl = 'https://careers.api.atcprotraining.com';
+  // private apiUrl = 'https://careers.api.atcprotraining.com';
+  private apiUrl = 'https://careers.api.atc.com.eg';
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
